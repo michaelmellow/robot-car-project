@@ -30,3 +30,28 @@
 *.exe
 *.out
 *.app
+
+# --- 
+
+# Build directories
+build/
+*/build/
+*/*/build/
+
+# Pico specific build artifacts
+*.uf2
+*.elf
+*.bin
+*.hex
+*.dis
+*.map
+*.lst
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+
