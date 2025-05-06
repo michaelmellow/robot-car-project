@@ -2,13 +2,11 @@
 
 This repository contains code and documentation for the Project Autonomous Systems.
 
-## Team members:
-
-> TODO: Change to your team members' names.
+## Team 33 members:
 
 This project is a joint collaboration of:
 
-* Alice Bloom (class ETI1V.IA)
-* Cris Dahlia (class ETI1V.IC)
-* Eve Flower (class ETI1V.IE)
-* George Hyacinth (class ETIV.IA)
+* Michael Mellow (class ETI1V.ID)
+* Mahmoud Eldeeb (class ETI1V.IE)
+* Joris Valtaris (class ETI1V.ID)
+* Niya Dimitrova (class ETI1V.IB)
