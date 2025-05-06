@@ -54,4 +54,7 @@ build/
 *.swo
 *~
 
+#cmake
+.cmake 
+
 

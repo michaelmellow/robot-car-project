@@ -1,2 +1,6 @@
 # robot-car-project
-   1. Set PICO_SDK_PATH to your pico-sdk location in CMakeLists.txt 
+
+   Autonomous maze solving vehicle.
+
+   To build - 
+   1. Set PICO_SDK_PATH in shell to pico library location
