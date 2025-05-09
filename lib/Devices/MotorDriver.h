@@ -43,23 +43,9 @@ typedef enum {
     BACKWARD,
 } DIR;
 
-/// @brief motor initialization
 void Motor_Init(void);
-
-/// @brief runs a certain motor (wheel)
-/// @param motor: Motors (wheels) A-D
-/// @param dir: forward and backward.
-/// @param speed: Rotation speed (0~100)
 void Motor_Run(UBYTE motor, DIR dir, UWORD speed);
-
-/// @brief stops a selected running motor
-/// @param motor motor to stop
 void Motor_Stop(UBYTE motor);
+void Motor_test(void);
 
-
-void forward_Motor_test(void);
-void backward_Motor_test(void);
-void left_Motor_test(void);
-void right_Motor_test(void);
-void turn_Motor_test(int angle, int speed);
 #endif
