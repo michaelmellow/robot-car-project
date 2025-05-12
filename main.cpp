@@ -12,7 +12,7 @@ int main(void)
 
     while(1){
 
-        turn_Motor_test (90, 100);
+        Motor_test ();
 
         sleep_ms(1000);
     }
