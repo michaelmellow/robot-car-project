@@ -15,7 +15,7 @@ include_directories(./lib/Devices)
 
 # Generate executable file
 add_executable(main 
-main.c
+main.cpp
 )
 
 # enable usb output, disable uart output
