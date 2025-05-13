@@ -3,12 +3,12 @@
 
 // #include "DEV_Config.h"
 // #include "PCA9685.h"
-#include "MotorDriver.h"
+#include "lib/Devices/MotorDriver.h"
 
-class Motor {
+class MotorClass {
 public:
     //constructor
-    Motor();
+    MotorClass();
 
     //movement
     void forward_move(int speed);

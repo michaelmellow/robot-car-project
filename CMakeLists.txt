@@ -13,6 +13,7 @@ add_subdirectory(lib/Devices)
 include_directories(./lib/Config)
 include_directories(./lib/Devices)
 
+
 # Generate executable file
 add_executable(main 
 main.cpp

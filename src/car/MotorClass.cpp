@@ -1,12 +1,12 @@
 #include "MotorClass.h"
 
-Motor::Motor() {
+MotorClass::MotorClass() {
 
     DEV_Module_Init();
     Motor_Init();
 }
 
-void Motor::forward_move(int speed) {
+void MotorClass::forward_move(int speed) {
     
     Motor_Run(MOTORA, FORWARD, speed);
     Motor_Run(MOTORB, FORWARD, speed);
@@ -14,7 +14,7 @@ void Motor::forward_move(int speed) {
     Motor_Run(MOTORD, FORWARD, speed);
 }
 
-void Motor::backward_move(int speed) {
+void MotorClass::backward_move(int speed) {
 
     Motor_Run(MOTORA, BACKWARD, speed);
     Motor_Run(MOTORB, BACKWARD, speed);
@@ -22,7 +22,7 @@ void Motor::backward_move(int speed) {
     Motor_Run(MOTORD, BACKWARD, speed);
 }
 
-void Motor::left_lateral(int speed) {
+void MotorClass::left_lateral(int speed) {
 
     Motor_Run(MOTORA, BACKWARD, speed);
     Motor_Run(MOTORB, FORWARD, speed);
@@ -30,7 +30,7 @@ void Motor::left_lateral(int speed) {
     Motor_Run(MOTORD, BACKWARD, speed);
 }
 
-void Motor::right_lateral(int speed) {
+void MotorClass::right_lateral(int speed) {
 
     Motor_Run(MOTORA, FORWARD, speed);
     Motor_Run(MOTORB, BACKWARD, speed);
@@ -38,7 +38,7 @@ void Motor::right_lateral(int speed) {
     Motor_Run(MOTORD, FORWARD, speed);
 }
 
-void Motor::turn(int speed, DIR dir1, DIR dir2) {
+void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     
     int angle = 90;
     float turn_speed_rad = (2 * speed) / car_width; //car_width = 10 (cm)
@@ -70,21 +70,21 @@ void Motor::turn(int speed, DIR dir1, DIR dir2) {
     Motor_Stop(MOTORD);
 }
 
-void Motor::turn_right(int speed) {
+void MotorClass::turn_right(int speed) {
     turn(speed, FORWARD, BACKWARD);
 }
 
-void Motor::turn_left(int speed) {
+void MotorClass::turn_left(int speed) {
     turn(speed, BACKWARD, FORWARD);
 }
 
-void Motor::turn_180(int speed) {
+void MotorClass::turn_180(int speed) {
     turn_right(speed);
     turn_right(speed);
 }
 
 
-void Motor::stop(void) {
+void MotorClass::stop(void) {
     
     Motor_Stop(MOTORA);
     Motor_Stop(MOTORB);
