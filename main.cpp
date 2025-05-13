@@ -1,18 +1,19 @@
 //#include "test.h"   //Examples
-#include "include/car/Car.h"
+#include "Car.h"
 
 // #include "pico/stdlib.h"
 // #include <stdio.h>
-namespace Car{
+//namespace Car{
     
-    Car car;
     int main(void){
-
+        //Car car;
+        MotorClass a;
         while (true){
             
-            car.update();
+            //car.update();
+            a.forward_move(100);
         }
         
     }
 
-}
+//}

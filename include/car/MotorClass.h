@@ -1,9 +1,7 @@
 #ifndef __MOTORCLASS_H_
 #define __MOTORCLASS_H_
 
-// #include "DEV_Config.h"
-// #include "PCA9685.h"
-#include "lib/Devices/MotorDriver.h"
+#include "MotorDriver.h"
 
 class MotorClass {
 public:

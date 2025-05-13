@@ -4,15 +4,20 @@ project(Pico_ePaper_Code)
 pico_sdk_init()
 
 # Add compilation subdirectory
-add_subdirectory(lib/Config)
-add_subdirectory(lib/Devices)
+add_subdirectory(lib/standard_pico_lib/Config)
+add_subdirectory(lib/standard_pico_lib/Devices)
+
+add_subdirectory(src/car)
 #add_subdirectory(examples)
 
 # Add header file directory
 #include_directories(examples)
-include_directories(./lib/Config)
-include_directories(./lib/Devices)
+include_directories(./lib/standard_pico_lib/Config)
+include_directories(./lib/standard_pico_lib/Devices)
 
+include_directories(./include/car)
+include_directories(./include/telemetry)
+include_directories(./tests)
 
 # Generate executable file
 add_executable(main 
@@ -26,4 +31,4 @@ pico_enable_stdio_uart(main 0)
 # create map/bin/hex/uf2 file etc.
 pico_add_extra_outputs(main)
 
-target_link_libraries(main Config pico_stdlib Devices hardware_i2c)
+target_link_libraries(main Car Config pico_stdlib Devices hardware_i2c)
