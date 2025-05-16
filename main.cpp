@@ -1,19 +1,13 @@
-//#include "test.h"   //Examples
 #include "Car.h"
+#include "TestFunctions.h"
 
-// #include "pico/stdlib.h"
-// #include <stdio.h>
-//namespace Car{
-    
-    int main(void){
-        //Car car;
-        MotorClass a;
-        while (true){
-            
-            //car.update();
-            a.forward_move(100);
-        }
+
+
+int main(void){
+
+    while (true){
         
+        full_movement_test();
     }
-
-//}
+    
+}

@@ -1,3 +1,6 @@
+#ifndef __CAR_H_
+#define __CAR_H_
+
 #include "MotorClass.h"
 
 class Car{
@@ -11,3 +14,5 @@ class Car{
         MotorClass motorController;
 
 };
+
+#endif
