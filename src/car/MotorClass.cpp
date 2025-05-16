@@ -8,13 +8,18 @@ MotorClass::MotorClass() {
 
 void MotorClass::forward_move(int speed) {
     
+    is_active = true;
+
     Motor_Run(MOTORA, FORWARD, speed);
     Motor_Run(MOTORB, FORWARD, speed);
     Motor_Run(MOTORC, FORWARD, speed);
     Motor_Run(MOTORD, FORWARD, speed);
+
 }
 
 void MotorClass::backward_move(int speed) {
+
+    is_active = true;
 
     Motor_Run(MOTORA, BACKWARD, speed);
     Motor_Run(MOTORB, BACKWARD, speed);
@@ -23,6 +28,8 @@ void MotorClass::backward_move(int speed) {
 }
 
 void MotorClass::left_lateral(int speed) {
+    
+    is_active = true;
 
     Motor_Run(MOTORA, BACKWARD, speed);
     Motor_Run(MOTORB, FORWARD, speed);
@@ -31,6 +38,8 @@ void MotorClass::left_lateral(int speed) {
 }
 
 void MotorClass::right_lateral(int speed) {
+    
+    is_active = true;
 
     Motor_Run(MOTORA, FORWARD, speed);
     Motor_Run(MOTORB, BACKWARD, speed);
@@ -64,10 +73,7 @@ void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
         DEV_Delay_ms(10);
     }
 
-    Motor_Stop(MOTORA);
-    Motor_Stop(MOTORB);
-    Motor_Stop(MOTORC);
-    Motor_Stop(MOTORD);
+    stop();
 }
 
 void MotorClass::turn_right(int speed) {
@@ -83,11 +89,13 @@ void MotorClass::turn_180(int speed) {
     turn_right(speed);
 }
 
-
 void MotorClass::stop(void) {
     
     Motor_Stop(MOTORA);
     Motor_Stop(MOTORB);
     Motor_Stop(MOTORC);
     Motor_Stop(MOTORD);
+    is_active = false;
+    
 }
+

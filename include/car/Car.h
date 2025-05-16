@@ -1,4 +1,8 @@
+#ifndef __CAR_H_
+#define __CAR_H_
+
 #include "MotorClass.h"
+#include "include/telemetry/DataLoggerClass.h"
 
 class Car{
     public:
@@ -8,6 +12,8 @@ class Car{
         void update();
 
     private:
-        MotorClass motorController;
-
+        MotorClass _motorController;
+        DataLogger _dataLogger;
 };
+
+#endif
