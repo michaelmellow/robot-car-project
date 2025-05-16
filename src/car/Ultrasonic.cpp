@@ -2,7 +2,7 @@
 #include "MotorDriver.h"
 #include <cstdio>
 
-Ultrasonic::Ultrasonic() : triggerPin_(triggerPin), echoPin_(echoPin), motorsRunning(true) {
+Ultrasonic::Ultrasonic(uint8_t triggerPin, uint8_t echoPin) : triggerPin_(triggerPin), echoPin_(echoPin), motorsRunning(true) {
     DEV_GPIO_Mode(triggerPin_, GPIO_OUT);
     DEV_GPIO_Mode(echoPin_, GPIO_IN);
 }

@@ -4,4 +4,4 @@ add_library(Car ${CAR_SRCS})
 
 target_include_directories(Car PUBLIC ../../include/car)
 
-target_link_libraries(Car PUBLIC Devices)
+target_link_libraries(Car PUBLIC Devices Config Telemetry)
