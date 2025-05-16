@@ -11,8 +11,7 @@ namespace Car{
         while (true){
             
             car.update();
+            sleep_ms(100);
         }
-        
     }
-
 }
