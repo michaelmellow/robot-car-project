@@ -7,3 +7,5 @@ include_directories(../Config)
 # Generate link library
 add_library(Devices ${DIR_Pico_Servo_Driver_SRCS})
 target_link_libraries(Devices PUBLIC Config)
+
+target_include_directories(Devices PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

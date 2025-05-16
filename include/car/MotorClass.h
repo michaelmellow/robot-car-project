@@ -1,10 +1,7 @@
 #ifndef __MOTORCLASS_H_
 #define __MOTORCLASS_H_
 
-// #include "DEV_Config.h"
-// #include "PCA9685.h"
-#include "lib/Devices/MotorDriver.h"
-#
+#include "MotorDriver.h"
 
 class MotorClass {
 public:
@@ -26,7 +23,6 @@ public:
 private:
     void turn(int speed, DIR dir1, DIR dir2);
     float car_width = 10; //cm
-    bool is_active = false;
 };
 
 #endif
