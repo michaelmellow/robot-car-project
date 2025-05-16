@@ -1,4 +1,8 @@
+#ifndef __DATALOGGER_H_
+#define __MOTORCLASS_H_
+
 #include "pico/stdlib.h"
+#include <vector>
 
 class DataLogger{
 
@@ -25,4 +29,4 @@ class DataLogger{
 
 };
 
-
+#endif

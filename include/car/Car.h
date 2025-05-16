@@ -2,7 +2,7 @@
 #define __CAR_H_
 
 #include "MotorClass.h"
-#include "include/telemetry/DataLoggerClass.h"
+#include "DataLoggerClass.h"
 
 class Car{
     public:

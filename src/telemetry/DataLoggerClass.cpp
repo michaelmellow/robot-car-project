@@ -1,5 +1,4 @@
-#include <iostream>
-#include "include/telemetry/DataLoggerClass.h"
+#include "DataLoggerClass.h"
 
 void DataLogger::log_active_time(){
 
@@ -37,7 +36,7 @@ std::vector<uint64_t> log_stop_times(
         
         if (active_times[i] < inactive_times[j]){
 
-            stopping_times.push_back[inactive_times[j]];
+            stopping_times.push_back(inactive_times[j]);
         }
     }
 
@@ -46,9 +45,9 @@ std::vector<uint64_t> log_stop_times(
 
 float calculate_distance(int speed, uint64_t time){
 
-    const float car_speed = .3333 // temp m/s value need to experiment
+    const float car_speed = .3333; // temp m/s value need to experiment
 
-    float distance = (car_speed * (speed/100)) * (time)
+    float distance = (car_speed * (speed/100)) * (time);
 
     return distance; //in meters
 }
