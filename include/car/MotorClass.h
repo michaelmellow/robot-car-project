@@ -23,6 +23,7 @@ public:
 private:
     void turn(int speed, DIR dir1, DIR dir2);
     float car_width = 10; //cm
+    bool is_active = false;
 };
 
 #endif

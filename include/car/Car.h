@@ -15,7 +15,7 @@ class Car{
         MotorClass motorController;
         uint32_t start_time = 0;
         float total_time = 0;
-
+        
         
         DataLogger _dataLogger;
 };
