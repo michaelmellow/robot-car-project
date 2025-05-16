@@ -1,31 +1,40 @@
 #include "Car.h"
+// #include "testBasicMotors.cpp"
 
-void Car::Car{
-    :   motorControl_()
-        dataLogger()
+
+Car::Car()
+{
 }
 
+void Car::update()
+{
 
-void Car::update(){
+    // full_movement_test();
+}
 
-    if (_motorController.is_active){
+void Car::start()
+{
 
-        _dataLogger.log_active_time();
+    if (running)
+    {
+        // if the car is already moving - stop and start moving again
+        running = false;
+        motorController.stop();
     }
 
-    if else (!_motorController.is_active){
+    motorController.forward_move();
+    running = true;
+    // start detecting the time when the car starts moving
+    start_time = time_us_32();
+}
 
-        _dataLogger.log_inactive_time();
+void Car::stop()
+{
+    if (running)
+    {
+        motorController.stop();
+        running = false;
     }
-
-}
-
-void Car::start(){
-
-
-}
-
-void Car::stop{
-
-
+    // calculate the time from start until the car stops
+    total_time = start_time - time_us_32();
 }
