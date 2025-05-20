@@ -1,32 +1,35 @@
-#ifndef __DATALOGGER_H_
-#define __MOTORCLASS_H_
+#ifndef DATALOGGERCLASS_H
+#define DATALOGGERCLASS_H
 
-#include "pico/stdlib.h"
 #include <vector>
+#include <cmath>
 
-class DataLogger{
+struct Waypoint {
+    float x = 0.0f;          
+    float y = 0.0f;          
+    uint64_t timestamp = 0;  
+    bool is_turn = false;    
+    float heading = 0.0f;
+};
 
-    public:
-        DataLogger();
-        void log_active_time();
-        void log_inactive_time();
+enum class MotorDirection; // forward declaration from MotorClass.h
 
-        std::vector<uint64_t> log_stop_times(
-            std::vector<uint64_t>& active_times,
-            std::vector<uint64_t>& inactive_times);
 
-        float calculate_distance(int speed, uint64_t time);
+class DataLogger {
+public:
+    DataLogger();
+    
+    float calculate_distance(int speed, uint64_t time) const;
+    void log_waypoint(int speed, MotorDirection direction);
+    void log_turn(float angle_degrees);
 
-    private:
+    const std::vector<Waypoint>& get_route() const { return route; }
 
-        std::vector<uint64_t> _active_motor_times {};
-        std::vector<uint64_t> _inactive_motor_times{};
-        std::vector<uint64_t> _stop_times{};
-
-        float _total_distance_traveled;
-
-        
-
+private:
+    
+    std::vector<Waypoint> route;
+    float current_x = 0.0f, current_y = 0.0f;
+    float current_heading = 0.0f; // radians
 };
 
 #endif

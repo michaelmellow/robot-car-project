@@ -2,15 +2,12 @@
 // #include "testBasicMotors.cpp"
 
 
-Car::Car()
-{
-
-}
+Car::Car() : motorController(&dataLogger) {}
 
 void Car::update()
 {
 
-    // full_movement_test();
+    sleep_ms(100);
 }
 
 void Car::start()
@@ -40,3 +37,17 @@ void Car::stop()
     // calculate the time from start until the car stops
     total_time = start_time - time_us_32();
 }
+
+int Car::speed(){
+
+    return speed_;
+}
+
+MotorClass& Car::getMotorController() {
+    return motorController;
+}
+
+DataLogger& Car::getDataLogger() {
+    return dataLogger;
+}
+
