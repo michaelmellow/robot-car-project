@@ -11,13 +11,18 @@ class Car{
         void stop();
         void update();
 
+        int speed();
+        MotorClass& getMotorController();
+        DataLogger& getDataLogger();
+
     private:
-        MotorClass motorController{};
+        MotorClass motorController;
+        DataLogger dataLogger;
+        
         uint32_t start_time = 0;
         float total_time = 0;
         int speed_ = 100;
         
-        DataLogger _dataLogger;
 };
 
 #endif
