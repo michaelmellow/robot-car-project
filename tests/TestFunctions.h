@@ -11,6 +11,7 @@ void new_test(Car car);
 
 void printWaypoints(const std::vector<Waypoint>& waypoints);
 
+void turn_test();
 
 
 #endif

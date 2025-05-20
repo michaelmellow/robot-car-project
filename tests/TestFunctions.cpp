@@ -27,8 +27,9 @@ void full_movement_test(){
         car.getMotorController().right_lateral(100);
         current_time = to_ms_since_boot(get_absolute_time());
     }
+
+
     car.getMotorController().stop();
- 
 }
 
 void new_test(Car car){
@@ -45,12 +46,6 @@ void new_test(Car car){
     car.getMotorController().turn_right(50);
 
     sleep_ms(1000);
-
-    car.getMotorController().backward_move(100);
-
-    sleep_ms(1000);
-
-    car.getMotorController().stop();
 }
 
 void printWaypoints(const std::vector<Waypoint>& waypoints) {
@@ -67,4 +62,14 @@ void printWaypoints(const std::vector<Waypoint>& waypoints) {
                   << wp.heading << "\t"
                   << (wp.heading * 180.0 / M_PI) << "\n";
     }
+}
+
+void turn_test() {
+    MotorClass a;
+    a.turn_left();
+    sleep_ms(2000);
+    a.turn_right();
+    sleep_ms(2000);
+    a.turn_180();
+    sleep_ms(5000);
 }
