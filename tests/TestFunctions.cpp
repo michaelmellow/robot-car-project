@@ -3,35 +3,48 @@
 void full_movement_test(){
 
     uint current_time = to_ms_since_boot(get_absolute_time());
-    MotorClass a;
+    Car car;
 
     while (current_time <= 2000) {
-        a.forward_move(100);
+        car.getMotorController().forward_move(100);
         current_time = to_ms_since_boot(get_absolute_time());
     }
-    a.stop();
+    car.getMotorController().stop();
 
     while (current_time <= 4000) {
-        a.backward_move(100);
+        car.getMotorController().backward_move(100);
         current_time = to_ms_since_boot(get_absolute_time());
     }
-    a.stop();
+    car.getMotorController().stop();
 
     while (current_time <= 6000) {
-        a.left_lateral(100);
+        car.getMotorController().left_lateral(100);
         current_time = to_ms_since_boot(get_absolute_time());
     }
-    a.stop();
+    car.getMotorController().stop();
 
     while (current_time <= 8000) {
-        a.right_lateral(100);
+        car.getMotorController().right_lateral(100);
         current_time = to_ms_since_boot(get_absolute_time());
     }
-    a.stop();
 
-    a.turn_left();
+
+    car.getMotorController().stop();
+}
+
+void new_test(Car car){
+    sleep_ms(5000);
+
+    car.getMotorController().forward_move(100);
+
     sleep_ms(1000);
-    a.turn_right();
+
+    car.getMotorController().stop();
+
+    sleep_ms(1000);
+
+    car.getMotorController().turn_right(50);
+
     sleep_ms(1000);
 <<<<<<< Updated upstream
     a.turn_180();

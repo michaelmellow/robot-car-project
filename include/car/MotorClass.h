@@ -2,11 +2,19 @@
 #define __MOTORCLASS_H_
 
 #include "MotorDriver.h"
+#include "DataLoggerClass.h"
+
+enum class MotorDirection {
+    D_FORWARD,
+    D_BACKWARD,
+    D_LEFT_LATERAL,
+    D_RIGHT_LATERAL
+};
 
 class MotorClass {
 public:
     //constructor
-    MotorClass();
+    MotorClass(DataLogger* dataLogger);
 
     //movement
     
@@ -41,6 +49,8 @@ public:
     bool is_active = false;
 
 private:
+    DataLogger* dataLogger;
+
     /// @brief a general turn function used by the other turning function
     /// @param dir1 a direction used by motors A and C (FORWARD or BACKWARD based on the turn direction)
     /// @param dir2 a direction used by motors B and D (FORWARD or BACKWARD based on the turn direction)
