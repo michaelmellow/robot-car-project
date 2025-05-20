@@ -33,12 +33,24 @@ void full_movement_test(){
     sleep_ms(1000);
     a.turn_right();
     sleep_ms(1000);
+<<<<<<< Updated upstream
     a.turn_180();
     sleep_ms(15000);
+=======
+
+    car.getMotorController().turn_right();
+
+    sleep_ms(1000);
+}
+
+void printWaypoints(const std::vector<Waypoint>& waypoints) {
+    std::cout << "Waypoints:\n";
+    std::cout << "Index\tX\tY\tTimestamp\tis_turn\tHeading(rad)\tHeading(deg)\n";
+>>>>>>> Stashed changes
     
 }
 
-void turn_test() {
+/*void turn_test() {
     MotorClass a;
     a.turn_left();
     sleep_ms(2000);
@@ -46,4 +58,4 @@ void turn_test() {
     sleep_ms(2000);
     a.turn_180();
     sleep_ms(5000);
-}
+}*/
