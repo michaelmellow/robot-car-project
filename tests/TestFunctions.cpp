@@ -29,21 +29,21 @@ void full_movement_test(){
     }
     a.stop();
 
-    a.turn_left(100);
+    a.turn_left();
     sleep_ms(1000);
-    a.turn_right(100);
+    a.turn_right();
     sleep_ms(1000);
-    a.turn_180(100);
+    a.turn_180();
     sleep_ms(15000);
     
 }
 
 void turn_test() {
     MotorClass a;
-    a.turn_left(100);
+    a.turn_left();
     sleep_ms(2000);
-    a.turn_right(100);
+    a.turn_right();
     sleep_ms(2000);
-    a.turn_180(100);
+    a.turn_180();
     sleep_ms(5000);
 }
