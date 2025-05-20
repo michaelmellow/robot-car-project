@@ -25,7 +25,7 @@ public:
     /// @brief starts moving the car laterally to the right
     /// @param speed the speed (0~100) to move at
     void right_lateral(int speed);
-    
+
     /// @brief turns the car 90 degrees to the right
     void turn_right();
 
@@ -53,6 +53,7 @@ private:
     /// @param dir4 direction for motor D
     /// @param speed the speed (0~100) to move at
     void motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed);
+    
     float car_width = 15; //cm
 };
 
