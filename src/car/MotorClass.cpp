@@ -50,19 +50,17 @@ void MotorClass::right_lateral(int speed) {
 void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     
     int angle = 90;
-    float turn_speed_rad = (2 * speed) / car_width; //car_width = 10 (cm)
-    float rad = angle * (3.14 / 180);
+    float error_correction = 0.23;
+
+    float turn_speed_rad = (2 * speed) / car_width;
+    float rad = angle * (3.141 / 180);
     float seconds = rad/turn_speed_rad;
 
-    seconds *= 5.8;
+    seconds += error_correction;
 
     const uint64_t start_time = time_us_64();
     const uint64_t microseconds = (uint64_t)(seconds * 1000000);
     
-    // Motor_Run(MOTORA, FORWARD, speed);
-    // Motor_Run(MOTORB, BACKWARD, speed);
-    // Motor_Run(MOTORC, FORWARD, speed);
-    // Motor_Run(MOTORD, BACKWARD, speed);
     Motor_Run(MOTORA, dir1, speed);
     Motor_Run(MOTORB, dir2, speed);
     Motor_Run(MOTORC, dir1, speed);
@@ -86,6 +84,8 @@ void MotorClass::turn_left(int speed) {
 
 void MotorClass::turn_180(int speed) {
     turn_right(speed);
+    stop();
+    sleep_ms(10);
     turn_right(speed);
 }
 

@@ -5,6 +5,7 @@
 
 
 void full_movement_test();
+void turn_test();
 
 
 #endif

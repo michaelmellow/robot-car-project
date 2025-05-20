@@ -7,7 +7,7 @@ int main(void){
 
     while (true){
         
-        full_movement_test();
+        turn_test();
     }
     
 }
