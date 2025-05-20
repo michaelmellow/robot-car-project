@@ -8,7 +8,7 @@ int main(void){
         
         new_test(car);
 
-        printWaypoints(car.getDataLogger().get_route());
+        //printWaypoints(car.getDataLogger().get_route());
     }
 }
 

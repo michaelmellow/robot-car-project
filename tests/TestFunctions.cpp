@@ -43,23 +43,11 @@ void new_test(Car car){
 
     sleep_ms(1000);
 
-    car.getMotorController().turn_right(50);
-
-    sleep_ms(1000);
-<<<<<<< Updated upstream
-    a.turn_180();
-    sleep_ms(15000);
-=======
-
     car.getMotorController().turn_right();
 
     sleep_ms(1000);
-}
-
-void printWaypoints(const std::vector<Waypoint>& waypoints) {
-    std::cout << "Waypoints:\n";
-    std::cout << "Index\tX\tY\tTimestamp\tis_turn\tHeading(rad)\tHeading(deg)\n";
->>>>>>> Stashed changes
+    car.getMotorController().turn_180();
+    sleep_ms(15000);
     
 }
 

@@ -9,7 +9,7 @@ void full_movement_test();
 void new_test(Car car);
 
 
-void printWaypoints(const std::vector<Waypoint>& waypoints);
+//void printWaypoints(const std::vector<Waypoint>& waypoints);
 
 void turn_test();
 
