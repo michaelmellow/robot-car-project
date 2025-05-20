@@ -25,7 +25,7 @@ public:
     /// @brief starts moving the car laterally to the right
     /// @param speed the speed (0~100) to move at
     void right_lateral(int speed);
-
+    
     /// @brief turns the car 90 degrees to the right
     void turn_right();
 
@@ -38,6 +38,7 @@ public:
     /// @brief stops all car movements
     void stop();
 
+    bool is_active = false;
 
 private:
     /// @brief a general turn function used by the other turning function

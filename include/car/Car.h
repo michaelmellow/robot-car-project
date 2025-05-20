@@ -12,7 +12,11 @@ class Car{
         void update();
 
     private:
-        MotorClass _motorController;
+        MotorClass motorController{};
+        uint32_t start_time = 0;
+        float total_time = 0;
+        int speed_ = 100;
+        
         DataLogger _dataLogger;
 };
 
