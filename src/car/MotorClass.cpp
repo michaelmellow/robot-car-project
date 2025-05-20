@@ -10,46 +10,34 @@ void MotorClass::forward_move(int speed) {
     
     is_active = true;
 
-    Motor_Run(MOTORA, FORWARD, speed);
-    Motor_Run(MOTORB, FORWARD, speed);
-    Motor_Run(MOTORC, FORWARD, speed);
-    Motor_Run(MOTORD, FORWARD, speed);
-
+    motor_running(FORWARD, FORWARD, FORWARD, FORWARD, speed);
 }
 
 void MotorClass::backward_move(int speed) {
 
     is_active = true;
 
-    Motor_Run(MOTORA, BACKWARD, speed);
-    Motor_Run(MOTORB, BACKWARD, speed);
-    Motor_Run(MOTORC, BACKWARD, speed);
-    Motor_Run(MOTORD, BACKWARD, speed);
+    motor_running(BACKWARD, BACKWARD, BACKWARD, BACKWARD, speed);
 }
 
 void MotorClass::left_lateral(int speed) {
     
     is_active = true;
 
-    Motor_Run(MOTORA, BACKWARD, speed);
-    Motor_Run(MOTORB, FORWARD, speed);
-    Motor_Run(MOTORC, FORWARD, speed);
-    Motor_Run(MOTORD, BACKWARD, speed);
+    motor_running(BACKWARD, FORWARD, FORWARD, BACKWARD, speed);
 }
 
 void MotorClass::right_lateral(int speed) {
     
     is_active = true;
 
-    Motor_Run(MOTORA, FORWARD, speed);
-    Motor_Run(MOTORB, BACKWARD, speed);
-    Motor_Run(MOTORC, BACKWARD, speed);
-    Motor_Run(MOTORD, FORWARD, speed);
+    motor_running(FORWARD, BACKWARD, BACKWARD, FORWARD, speed);
 }
 
-void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
+void MotorClass::turn(DIR dir1, DIR dir2) {
     
     int angle = 90;
+    int speed = 100;
     float error_correction = 0.23;
 
     float turn_speed_rad = (2 * speed) / car_width;
@@ -61,10 +49,7 @@ void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     const uint64_t start_time = time_us_64();
     const uint64_t microseconds = (uint64_t)(seconds * 1000000);
     
-    Motor_Run(MOTORA, dir1, speed);
-    Motor_Run(MOTORB, dir2, speed);
-    Motor_Run(MOTORC, dir1, speed);
-    Motor_Run(MOTORD, dir2, speed);
+    motor_running(dir1, dir2, dir1, dir2, speed);
 
     while (time_us_64() - start_time < microseconds) {
 
@@ -74,22 +59,22 @@ void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     stop();
 }
 
-void MotorClass::turn_right(int speed) {
-    turn(speed, FORWARD, BACKWARD);
+void MotorClass::turn_right() {
+    turn(FORWARD, BACKWARD);
 }
 
-void MotorClass::turn_left(int speed) {
-    turn(speed, BACKWARD, FORWARD);
+void MotorClass::turn_left() {
+    turn(BACKWARD, FORWARD);
 }
 
-void MotorClass::turn_180(int speed) {
-    turn_right(speed);
+void MotorClass::turn_180() {
+    turn_right();
     stop();
     sleep_ms(10);
-    turn_right(speed);
+    turn_right();
 }
 
-void MotorClass::stop(void) {
+void MotorClass::stop() {
     
     Motor_Stop(MOTORA);
     Motor_Stop(MOTORB);
@@ -97,5 +82,13 @@ void MotorClass::stop(void) {
     Motor_Stop(MOTORD);
     is_active = false;
     
+}
+
+void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed) {
+
+    Motor_Run(MOTORA, dir1, speed);
+    Motor_Run(MOTORB, dir2, speed);
+    Motor_Run(MOTORC, dir3, speed);
+    Motor_Run(MOTORD, dir4, speed);
 }
 
