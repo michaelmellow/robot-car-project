@@ -1,27 +1,16 @@
-#include "Car.h"
-#include "TestFunctions.h"
+#include "MotorClass.h"
+#include "Ultrasonic.h"
 #include "ReactToDistance.h"
 
-int main(void)
+NavigateCar::NavigateCar()
 {
-    Ultrasonic front(15, 16);
-    Ultrasonic left(13, 18);
-    Ultrasonic right(14, 17);
+    motor.stop();
+}
 
-    DEV_Delay_ms(3000);
-    // time for the sensors to initialize and calculate distance properly
-    // it detetcts that the robot is too close to walls immediately after turning on without the delay
+void NavigateCar::decideTurn(float distance, float left_distance, float right_distance)
+{
 
-    // NavigateCar navigate;
-    MotorClass motor;
-
-    while (true)
-    {
-        float distance = front.getDistance();
-        float left_distance = left.getDistance();
-        float right_distance = right.getDistance();
-       // navigate.decideTurn(distance, left_distance, right_distance);
-
+    
         if (distance >= 15)
         {
             motor.forward_move(80);
@@ -88,14 +77,14 @@ int main(void)
                    motor.forward_move(70);
                    DEV_Delay_ms(1500);
                    motor.stop();
-               // try to get the distance again it might not be updating 
-               //getting out of the 180 degrees if condition by calculating the distance again
-                 distance = front.getDistance();
+               // try to get the distance again it might not be updating
+               //try having an else in which the motor stops and after that in the else having an if statement where checking for the 3 distances
+               //and making all of the moves in this if, after that updating the distances again and having another if to stop the car
+                   //distance = front.getDistance();
                    if (distance < 15)
                    {
                        motor.stop();
                    }
                }
                }
-    }
 }
