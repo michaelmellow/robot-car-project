@@ -9,7 +9,7 @@ public:
     /// @brief constructor
     BottomSensor();
     
-    bool start_check ();
+    void start_check ();
 
 
 private:

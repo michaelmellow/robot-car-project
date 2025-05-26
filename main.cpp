@@ -6,10 +6,12 @@
 
 int main(void){
     BottomSensor s{};
+    MotorClass a{};
 
     while (true){
-       s.start_check();
-       sleep_ms(200); 
+
+
+       sleep_ms(100); 
         
     }
     
