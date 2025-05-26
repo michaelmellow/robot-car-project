@@ -8,7 +8,9 @@ enum class MotorDirection {
     D_FORWARD,
     D_BACKWARD,
     D_LEFT_LATERAL,
-    D_RIGHT_LATERAL
+    D_RIGHT_LATERAL,
+    D_TURN_LEFT,
+    D_TURN_RIGHT
 };
 
 class MotorClass {
