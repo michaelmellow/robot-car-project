@@ -2,19 +2,19 @@
 #define __BOTTOMSENSOR_H_
 
 #include "Car.h"
+#include "hardware/adc.h"
 
 class BottomSensor {
 public:
     /// @brief constructor
     BottomSensor();
     
-    void start_check ();
+    bool start_check ();
 
 
 private:
-    bool LightColor_{};
-    int LightColorCounter_{};
-}
+    int light_color_counter_{};
+};
 
 
 #endif
