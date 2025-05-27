@@ -60,3 +60,9 @@ void new_test(Car car){
     a.turn_180();
     sleep_ms(5000);
 }*/
+
+
+void maze_solver_test(Car car){
+
+    
+}

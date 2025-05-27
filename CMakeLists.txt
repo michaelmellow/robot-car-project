@@ -3,12 +3,17 @@ include(pico_sdk_import.cmake)
 project(Pico_ePaper_Code)
 pico_sdk_init()
 
+#Set C standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Add compilation subdirectory
 add_subdirectory(lib/standard_pico_lib/Config)
 add_subdirectory(lib/standard_pico_lib/Devices)
 
 add_subdirectory(src/car)
 add_subdirectory(src/telemetry)
+
 add_subdirectory(tests)
 #add_subdirectory(examples)
 
