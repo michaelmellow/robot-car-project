@@ -13,15 +13,15 @@ class Car{
         void update();
 
         int speed();
-        MotorClass& getMotorController();
         DataLogger& getDataLogger();
         MazeSolver& getMazeSolver();
+        MotorClass& getMotorController();
 
     private:
-        MotorClass motorController;
         DataLogger dataLogger;
         MazeSolver mazeSolver;
-        
+        MotorClass motorController;
+
         uint32_t start_time = 0;
         float total_time = 0;
         int speed_ = 100;

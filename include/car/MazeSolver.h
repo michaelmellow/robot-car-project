@@ -1,44 +1,27 @@
 #include <Car.h>
 #include <stack>
 #include <array>
-//choose minor for 2nd year
+
 enum class MotorDirection; // forward declaration from MotorClass.h
 
 //enum MazeSolverDirection { FORWARD, LEFT, RIGHT, BACK }; 
 
 struct junction{
-    
-    int forward = -1;
-    int left = -1;
-    int right = -1;
+
+    int forward = 0;
+    int left = 0;
+    int right = 0;
+    int backward = 0
 
     void reset() {
-        forward = -1;
-        left = -1;
-        right = -1;
+        forward = 0;
+        left = 0;
+        right = 0;
+        backward = 0
     }
 
-    MotorDirection min(){
-        
-        MotorDirection direction = MotorDirection::D_TURN_RIGHT;
-        int minimum = -1;
-    
-        if (forward > 0) {
-            minimum = forward;
-            direction = MotorDirection::D_FORWARD;
-        }
-
-        if (left > 0 && (minimum == -1 || left < minimum)) {
-            minimum = left;
-            direction = MotorDirection::D_TURN_LEFT;
-        }
-
-        if (right > 0 && (minimum == -1 || right < minimum)) {
-            
-            direction = MotorDirection::D_TURN_RIGHT;
-        }
-
-        return direction
+    bool has_unexplored_paths() const {
+        return (forward == 0) || (left == 0) || (right == 0);
     }
 };
 
@@ -46,14 +29,25 @@ struct junction{
 class MazeSolver{
 
     public:
+        MazeSolver();
 
         void create_junction(bool front_open, bool left_open, bool right_open);
-        void update_junction();
-        void choose_direction();
-        void back_track_to_open_junction();
-        int find_last_open_junction();    
+        void update_junction(junction junc, MotorDirection dir);
+        
+        MotorDirection get_best_path (junction junc);
+        MotorDirection choose_direction();
+        
+        bool handle_deadend();
+
+        MotorDirection flip_direction(MotorDirection dir);
+        void check_backtracking_status
 
     private:
+        
+        MotorClass motorController;
+
+        bool is_backtracking;
+        bool is_first_junction = true;
 
         junction current_junction;
         std::stack<junction> path_history;
