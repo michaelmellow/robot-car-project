@@ -1,102 +1,68 @@
-#include <iostream>
+#include "pico/stdlib.h"
+#include <stdio.h>
+
 #include "Car.h"
-#include "TestFunctions.h"
+#include "Ultrasonic.h"
+#include "MotorClass.h"
 #include "ReactToDistance.h"
 
-int main(void)
+int main()
 {
-    Ultrasonic front(15, 16);
-    Ultrasonic left(13, 18);
-    Ultrasonic right(14, 17);
+    stdio_init_all(); 
+    printf("Program started...\n");
 
-    DEV_Delay_ms(3000);
-    // time for the sensors to initialize and calculate distance properly
-    // it detetcts that the robot is too close to walls immediately after turning on without the delay
-
-    // NavigateCar navigate;
     MotorClass motor;
+    // setup sensors trigger, echo
+    Ultrasonic s_front(15, 16); 
+    Ultrasonic s_right(14, 17);
+    Ultrasonic s_left(13, 18);
 
-    while (true)
+    float WALL_DISTANCE = 15.0f;
+
+    while(true)
     {
-        float distance = front.getDistance();
-        float left_distance = left.getDistance();
-        float right_distance = right.getDistance();
-       // navigate.decideTurn(distance, left_distance, right_distance);
+        float Front = s_front.getDistance(); // front distance
+        float Right = s_right.getDistance(); // right distance
+        float Left = s_left.getDistance(); // left distance
 
-        if (distance >= 15)
-        {
-            motor.forward_move(80);
-
-            // if it gets too close to a wall on each side it should move using lateral moving
-            // to move slightly away from the wall to avoid hitting it
-
-            if (right_distance < 10 && left_distance > 10)
-            {
-
-                motor.left_lateral(80);
-                DEV_Delay_ms(400);
-                motor.stop();
+        printf("Front: %.2f cm, Left: %.2f cm, Right: %.2f cm\n", Front, Left, Right);
+        printf("######## ENTERED #######\n");
+        
+        // if the front is clear
+        if(Front > WALL_DISTANCE){
+            // if the car is close to the right wall
+            if(Right < WALL_DISTANCE){
+                motor.CurvedTurnLeftt(40);
             }
-            else if (left_distance < 10 && right_distance > 10)
-            {
-                motor.right_lateral(80);
-                DEV_Delay_ms(400);
-                motor.stop();
+            // if the car is close to the left wall
+            else if(Left < WALL_DISTANCE){
+                motor.CurvedTurnRight(40);
             }
-        }
-
-        else if (right_distance > 15 && distance < 15)
-        {
-            motor.stop();
-            DEV_Delay_ms(50);
-            printf("Always chose to turn right.");
-            motor.turn_right(60);
-            DEV_Delay_ms(100);
-
-            // distance = front.getDistance();
-            if (distance < 15)
-            {
-                motor.stop();
+            // if all sensors are clear
+            else {
+                motor.forward_move(40);
             }
-        }
-
-        else if (left_distance > 15 && distance < 15)
-        {
-            motor.stop();
-            DEV_Delay_ms(50);
-            printf("Path on the left is clear, turn left");
-            motor.turn_left(60);
-            DEV_Delay_ms(100);
-
-            // distance = front.getDistance();
-            if (distance < 15)
-            {
-                motor.stop();
+        } 
+        // if the front sensor detects a nearby wall
+        else {
+            // if the right side is clear
+            if(Right > WALL_DISTANCE && Right > Left){
+                motor.turn_right(50);
+                sleep_ms(400);
+                if(Front > WALL_DISTANCE){
+                    motor.forward_move(40);
+                }
+            }
+            // if the left side is clear
+            else if(Left > WALL_DISTANCE && Left > Right){
+                motor.turn_left(40);
+                sleep_ms(400);
+                if(Front > WALL_DISTANCE){
+                    motor.forward_move(40);
+                }
             }
         }
 
-             else if(distance < 15 && left_distance < 15 && right_distance < 15)
-               {
-                   printf("Dead end! No way out, make 180 degrees turn");
-                   motor.stop();
-                   DEV_Delay_ms(50);
-
-                   if(distance < 15 && left_distance < 15 && right_distance < 15) {
-                   motor.backward_move(70);
-                   DEV_Delay_ms(200);
-                   motor.turn_180(50);
-                   DEV_Delay_ms(400);
-                   motor.forward_move(70);
-                   DEV_Delay_ms(1500);
-                   motor.stop();
-               // try to get the distance again it might not be updating 
-               //getting out of the 180 degrees if condition by calculating the distance again
-                 distance = front.getDistance();
-                   if (distance < 15)
-                   {
-                       motor.stop();
-                   }
-               }
-               }
+        sleep_ms(400);  
     }
 }
