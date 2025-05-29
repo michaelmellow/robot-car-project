@@ -45,10 +45,9 @@ void MotorClass::right_lateral(int speed) {
 
 }
 
-void MotorClass::turn(DIR dir1, DIR dir2) {
+void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     
     int angle = 90;
-    int speed = 100;
     float error_correction = 0.23;
 
     float turn_speed_rad = (2 * speed) / car_width;
@@ -70,19 +69,19 @@ void MotorClass::turn(DIR dir1, DIR dir2) {
     stop();
 }
 
-void MotorClass::turn_right() {
-    turn(FORWARD, BACKWARD);
+void MotorClass::turn_right(int speed) {
+    turn(speed, FORWARD, BACKWARD);
 }
 
-void MotorClass::turn_left() {
-    turn(BACKWARD, FORWARD);
+void MotorClass::turn_left(int speed) {
+    turn(speed, BACKWARD, FORWARD);
 }
 
-void MotorClass::turn_180() {
-    turn_right();
+void MotorClass::turn_180(int speed) {
+    turn_right(speed);
     stop();
     sleep_ms(10);
-    turn_right();
+    turn_right(speed);
 }
 
 void MotorClass::stop() {
@@ -103,3 +102,18 @@ void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed
     Motor_Run(MOTORD, dir4, speed);
 }
 
+void MotorClass::CurvedTurnRight(int speed)
+{
+    Motor_Run(MOTORA, FORWARD, speed);
+    Motor_Run(MOTORB, FORWARD, speed / 2);
+    Motor_Run(MOTORC, FORWARD, speed);
+    Motor_Run(MOTORD, FORWARD, speed / 2);
+}
+
+void MotorClass::CurvedTurnLeft(int speed)
+{
+    Motor_Run(MOTORA, FORWARD, speed / 2);
+    Motor_Run(MOTORB, FORWARD, speed);
+    Motor_Run(MOTORC, FORWARD, speed / 2);
+    Motor_Run(MOTORD, FORWARD, speed);
+}

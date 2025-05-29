@@ -48,6 +48,12 @@ public:
     /// @brief stops all car movements
     void stop();
 
+    /// @brief turns the car a bit to the right 
+    void CurvedTurnRight(int speed);
+
+    /// @brief turns the car a bit to the left
+    void CurvedTurnLeft(int speed);
+
     bool is_active = false;
 
 private:
@@ -56,7 +62,7 @@ private:
     /// @brief a general turn function used by the other turning function
     /// @param dir1 a direction used by motors A and C (FORWARD or BACKWARD based on the turn direction)
     /// @param dir2 a direction used by motors B and D (FORWARD or BACKWARD based on the turn direction)
-    void turn(DIR dir1, DIR dir2);
+    void turn(int speed, DIR dir1, DIR dir2);
 
     /// @brief runs all 4 motors in the given directions (FORWARD or BACKWARD)
     /// @param dir1 direction for motor A
