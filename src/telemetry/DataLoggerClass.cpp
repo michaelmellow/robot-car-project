@@ -52,3 +52,12 @@ float calculate_distance(int speed, uint64_t time){
     return distance; //in meters
 }
 
+<<<<<<< Updated upstream
+=======
+}
+
+void wifi_connect(std::string ssid, std::string password) {
+
+    
+}
+>>>>>>> Stashed changes

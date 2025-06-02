@@ -3,6 +3,16 @@
 
 #include "pico/stdlib.h"
 #include <vector>
+<<<<<<< Updated upstream
+=======
+#include <cmath>
+#include <string>
+
+#include "pico/cyw43_arch.h"
+#include "lwip/apps/http_client.h"
+#include "lwip/netif.h"
+#include "pico/stdio_usb.h"
+>>>>>>> Stashed changes
 
 class DataLogger{
 
@@ -15,7 +25,18 @@ class DataLogger{
             std::vector<uint64_t>& active_times,
             std::vector<uint64_t>& inactive_times);
 
+<<<<<<< Updated upstream
         float calculate_distance(int speed, uint64_t time);
+=======
+class DataLogger {
+public:
+    DataLogger();
+    
+    float calculate_distance(int speed, uint64_t time) const;
+    void log_waypoint(int speed, MotorDirection direction);
+    void log_turn(float angle_degrees);
+    void wifi_connect(std::string ssid, std::string password);
+>>>>>>> Stashed changes
 
     private:
 
