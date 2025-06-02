@@ -14,14 +14,19 @@ int main()
     MotorClass motor;
     // setup sensors trigger, echo
     Ultrasonic s_front(15, 16); 
-    Ultrasonic s_right(14, 17);
-    Ultrasonic s_left(13, 18);
+    Ultrasonic s_F_right(14, 17);
+    Ultrasonic s_F_left(13, 18);
+    Ultrasonic s_right(12, 19);
+    Ultrasonic s_left(11, 10);
 
     float WALL_DISTANCE = 15.0f;
+    float SAFE_DISTANCE = 17.0f;
 
     while(true)
     {
         float Front = s_front.getDistance(); // front distance
+        float F_Right = s_F_right.getDistance(); // 45 front distance
+        float F_Left = s_F_left.getDistance(); // 45 front distance
         float Right = s_right.getDistance(); // right distance
         float Left = s_left.getDistance(); // left distance
 
@@ -31,11 +36,11 @@ int main()
         // if the front is clear
         if(Front > WALL_DISTANCE){
             // if the car is close to the right wall
-            if(Right < WALL_DISTANCE){
-                motor.CurvedTurnLeftt(40);
+            if(F_Right < WALL_DISTANCE){
+                motor.CurvedTurnLeft(40);
             }
             // if the car is close to the left wall
-            else if(Left < WALL_DISTANCE){
+            else if(F_Left < WALL_DISTANCE){
                 motor.CurvedTurnRight(40);
             }
             // if all sensors are clear
@@ -47,7 +52,7 @@ int main()
         else {
             // if the right side is clear
             if(Right > WALL_DISTANCE && Right > Left){
-                motor.turn_right(50);
+                motor.turn_right(40);
                 sleep_ms(400);
                 if(Front > WALL_DISTANCE){
                     motor.forward_move(40);
