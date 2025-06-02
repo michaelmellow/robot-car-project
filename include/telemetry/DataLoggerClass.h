@@ -7,6 +7,14 @@
 =======
 #include <cmath>
 #include <string>
+<<<<<<< Updated upstream
+=======
+
+#include "pico/cyw43_arch.h"
+#include "lwip/apps/http_client.h"
+#include "lwip/netif.h"
+#include "pico/stdio_usb.h"
+>>>>>>> Stashed changes
 
 #include "pico/cyw43_arch.h"
 #include "lwip/apps/http_client.h"
@@ -36,6 +44,9 @@ public:
     void log_waypoint(int speed, MotorDirection direction);
     void log_turn(float angle_degrees);
     void wifi_connect(std::string ssid, std::string password);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     private:
