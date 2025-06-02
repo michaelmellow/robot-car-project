@@ -1,10 +1,16 @@
 #include "MotorClass.h"
 
-MotorClass::MotorClass(DataLogger* logger) : dataLogger(logger) {
+/*MotorClass::MotorClass(DataLogger* logger) : dataLogger(logger) {
 
     DEV_Module_Init();
     Motor_Init();
 }
+*/
+MotorClass::MotorClass(){
+    DEV_Module_Init();
+    Motor_Init();
+}
+
 
 void MotorClass::forward_move(int speed) {
     
@@ -45,10 +51,9 @@ void MotorClass::right_lateral(int speed) {
 
 }
 
-void MotorClass::turn(DIR dir1, DIR dir2) {
+void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     
     int angle = 90;
-    int speed = 100;
     float error_correction = 0.23;
 
     float turn_speed_rad = (2 * speed) / car_width;
@@ -70,21 +75,6 @@ void MotorClass::turn(DIR dir1, DIR dir2) {
     stop();
 }
 
-void MotorClass::turn_right() {
-    turn(FORWARD, BACKWARD);
-}
-
-void MotorClass::turn_left() {
-    turn(BACKWARD, FORWARD);
-}
-
-void MotorClass::turn_180() {
-    turn_right();
-    stop();
-    sleep_ms(10);
-    turn_right();
-}
-
 void MotorClass::stop() {
     
     Motor_Stop(MOTORA);
@@ -95,6 +85,22 @@ void MotorClass::stop() {
     
 }
 
+void MotorClass::turn_right(int speed) {
+    turn(speed, FORWARD, BACKWARD);
+}
+
+void MotorClass::turn_left(int speed) {
+    turn(speed, BACKWARD, FORWARD);
+}
+
+void MotorClass::turn_180(int speed) {
+    turn_right(speed);
+    stop();
+    sleep_ms(10);
+    turn_right(speed);
+}
+
+
 void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed) {
 
     Motor_Run(MOTORA, dir1, speed);
@@ -103,3 +109,18 @@ void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed
     Motor_Run(MOTORD, dir4, speed);
 }
 
+void MotorClass::turn_to_direction(MotorDirection dir, int speed){
+    
+    using enum MotorDirection;
+
+    switch (dir){
+
+        case D_FORWARD: break;
+        case D_TURN_BACKWARD: turn_180(speed);
+        case D_LEFT_LATERAL: left_lateral(speed);
+        case D_RIGHT_LATERAL: right_lateral(speed);
+        case D_TURN_LEFT: turn_right(speed);
+        case D_TURN_RIGHT: turn_left(speed);
+        default: break;
+    }
+}

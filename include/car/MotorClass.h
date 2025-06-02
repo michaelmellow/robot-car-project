@@ -6,17 +6,19 @@
 
 enum class MotorDirection {
     D_FORWARD,
-    D_BACKWARD,
+    D_TURN_BACKWARD,
     D_LEFT_LATERAL,
     D_RIGHT_LATERAL,
     D_TURN_LEFT,
-    D_TURN_RIGHT
+    D_TURN_RIGHT,
+    D_STOP,
 };
 
 class MotorClass {
 public:
     //constructor
-    MotorClass(DataLogger* dataLogger);
+    //MotorClass(DataLogger* dataLogger);
+    MotorClass();
 
     //movement
     
@@ -37,16 +39,22 @@ public:
     void right_lateral(int speed);
 
     /// @brief turns the car 90 degrees to the right
-    void turn_right();
+    void turn_right(int speed);
 
     /// @brief turns the car 90 degrees to the left
-    void turn_left();
+    void turn_left(int speed);
 
     /// @brief turns the car around (180 degree turn)
-    void turn_180();
+    void turn_180(int speed);
 
     /// @brief stops all car movements
     void stop();
+
+    void turn_to_direction(MotorDirection dir, int speed);
+
+
+
+
 
     bool is_active = false;
 
@@ -56,7 +64,7 @@ private:
     /// @brief a general turn function used by the other turning function
     /// @param dir1 a direction used by motors A and C (FORWARD or BACKWARD based on the turn direction)
     /// @param dir2 a direction used by motors B and D (FORWARD or BACKWARD based on the turn direction)
-    void turn(DIR dir1, DIR dir2);
+    void turn(int speed, DIR dir1, DIR dir2);
 
     /// @brief runs all 4 motors in the given directions (FORWARD or BACKWARD)
     /// @param dir1 direction for motor A

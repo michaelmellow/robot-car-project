@@ -43,10 +43,10 @@ void new_test(Car car){
 
     sleep_ms(1000);
 
-    car.getMotorController().turn_right();
+    car.getMotorController().turn_right(100);
 
     sleep_ms(1000);
-    car.getMotorController().turn_180();
+    car.getMotorController().turn_180(100);
     sleep_ms(15000);
     
 }

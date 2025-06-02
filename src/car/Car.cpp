@@ -2,15 +2,37 @@
 // #include "testBasicMotors.cpp"
 
 
-Car::Car() : motorController(&dataLogger) {}
+//Car::Car() : motorController(&dataLogger) {}
+Car::Car(){}
 
-void Car::update()
-{
+//#todo add car adjustment during maze traversal
+bool Car::update_tremaux(){
 
+    auto result = sensorArray.update_readings();
+    //MotorDirection adjustment_direction = sensorArray.find_adjustment() ~
+    //motorController.adjust(adjustment_direction) ~ need to make something like this
 
-    
-    sleep_ms(100);
+    //if junction is found
+    if (result){
+        //if not currently backtracking, make new junction
+        if (!mazeSolver.get_is_backtracking()){
+
+            mazeSolver.create_junction(result.value());
+        }
+
+        DEV_Delay_ms(100); // experiment with value;
+        motorController.stop();
+
+        MotorDirection chosen_direction = mazeSolver.choose_direction();
+        
+        if (chosen_direction == MotorDirection::D_STOP) return true;
+
+        motorController.turn_to_direction(chosen_direction, speed_);
+        motorController.forward_move(speed_);
+    } 
 }
+
+//void Car::update_following(){}
 
 void Car::start()
 {
@@ -19,7 +41,6 @@ void Car::start()
     {
         // if the car is already moving - stop and start moving again
     
-        motorController.is_active = false;
         motorController.stop();
     }
 
@@ -34,7 +55,6 @@ void Car::stop()
     if (motorController.is_active)
     {
         motorController.stop();
-        motorController.is_active = false;
     }
     // calculate the time from start until the car stops
     total_time = start_time - time_us_32();

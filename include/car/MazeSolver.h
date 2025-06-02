@@ -2,7 +2,8 @@
 #include <array>
 #include <iostream>
 
-#include <MotorClass.h>
+#include "MotorClass.h"
+#include "SensorArray.h"
 
 //enum class MotorDirection; // forward declaration from MotorClass.h
 
@@ -43,7 +44,7 @@ class MazeSolver{
     public:
         MazeSolver();
 
-        void create_junction(bool front_open, bool left_open, bool right_open);
+        void create_junction(sensor_status);
         void update_junction(junction &junc, MotorDirection &dir);
         
         void handle_deadend();
@@ -55,6 +56,9 @@ class MazeSolver{
         MotorDirection choose_direction();
         
         MotorDirection flip_direction(MotorDirection &dir);
+
+        junction get_current_junction();
+        bool get_is_backtracking();
 
     private:
         
