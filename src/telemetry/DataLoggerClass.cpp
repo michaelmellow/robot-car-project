@@ -18,6 +18,7 @@ void DataLogger::log_inactive_time(){
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 std::vector<uint64_t> log_stop_times(
     std::vector<uint64_t>& active_times,
     std::vector<uint64_t>& inactive_times)
@@ -60,6 +61,8 @@ float calculate_distance(int speed, uint64_t time){
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 }
 
 void wifi_connect(std::string ssid, std::string password) {
@@ -67,6 +70,10 @@ void wifi_connect(std::string ssid, std::string password) {
     
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+}
+>>>>>>> Stashed changes
+=======
 }
 >>>>>>> Stashed changes
 =======
