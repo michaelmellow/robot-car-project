@@ -68,7 +68,3 @@ void DataLogger::log_turn(float angle_degrees){
 
 }
 
-void wifi_connect(std::string ssid, std::string password) {
-
-    
-}
