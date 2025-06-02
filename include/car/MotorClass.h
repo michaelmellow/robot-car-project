@@ -37,13 +37,13 @@ public:
     void right_lateral(int speed);
 
     /// @brief turns the car 90 degrees to the right
-    void turn_right();
+    void turn_right(int speed);
 
     /// @brief turns the car 90 degrees to the left
-    void turn_left();
+    void turn_left(int speed);
 
     /// @brief turns the car around (180 degree turn)
-    void turn_180();
+    void turn_180(int speed);
 
     /// @brief stops all car movements
     void stop();
