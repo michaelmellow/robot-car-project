@@ -10,9 +10,17 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 =======
 =======
+=======
+
+#include "pico/cyw43_arch.h"
+#include "lwip/apps/http_client.h"
+#include "lwip/netif.h"
+#include "pico/stdio_usb.h"
+>>>>>>> Stashed changes
 
 #include "pico/cyw43_arch.h"
 #include "lwip/apps/http_client.h"
@@ -63,6 +71,9 @@ public:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
