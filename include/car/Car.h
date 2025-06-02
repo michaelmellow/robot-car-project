@@ -8,7 +8,7 @@
 #include "MazeSolver.h"
 #include "Ultrasonic.h"
 
-class Car(
+class Car{
     public:
         Car();
         void start();
@@ -33,6 +33,6 @@ class Car(
         float total_time = 0;
         int speed_ = 100;
         
-);
+};
 
 #endif
