@@ -1,13 +1,25 @@
-#ifndef __DATALOGGER_H_
-#define __MOTORCLASS_H_
+#ifndef DATALOGGERCLASS_H
+#define DATALOGGERCLASS_H
 
-#include "pico/stdlib.h"
 #include <vector>
+#include <cmath>
+#include <string>
 
 #include "pico/cyw43_arch.h"
 #include "lwip/apps/http_client.h"
 #include "lwip/netif.h"
-#include "pico/stdio_usb.h"
+
+struct Waypoint {
+    float x = 0.0f;          
+    float y = 0.0f;          
+    uint64_t timestamp = 0;  
+    bool is_turn = false;    
+    float heading = 0.0f;
+};
+
+
+
+enum class MotorDirection; // forward declaration from MotorClass.h
 
 
 class DataLogger {
