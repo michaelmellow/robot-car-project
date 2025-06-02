@@ -72,7 +72,7 @@ private:
     /// @param speed the speed (0~100) to move at
     void motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed);
     
-    float car_width = 15; //cm
+    float car_width = 11; //cm
 };
 
 #endif
