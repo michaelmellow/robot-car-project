@@ -4,6 +4,7 @@
 #include "Car.h"
 #include "iostream"
 
+enum Route { ROUTE_A, ROUTE_B };
 
 void full_movement_test();
 void new_test(Car car);

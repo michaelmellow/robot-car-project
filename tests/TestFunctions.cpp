@@ -82,6 +82,9 @@ void Navigate()
 
     float WALL_DISTANCE = 15.0f;
     float SAFE_DISTANCE = 17.0f;
+    float clear_rout = 30.0f;
+
+    Route currentRoute = ROUTE_A;
 
     while(true)
     {
@@ -94,36 +97,47 @@ void Navigate()
         printf("Front: %.2f cm, Left: %.2f cm, Right: %.2f cm\n", Front, Left, Right);
         printf("######## ENTERED #######\n");
         
-        // if the front is clear
-        if(Front > WALL_DISTANCE){
-            // if the car is close to the right wall
-            if(F_Right < SAFE_DISTANCE){
-                motor.CurvedTurnLeft(40);
+        // if the front is not clear
+        if(Front < WALL_DISTANCE){
+            // turn left to avoid collision
+            motor.turn_left(40);
+            sleep_ms(400);
+        } 
+        // if the right side is clear to turn
+        else if(Right > clear_rout){
+            if (currentRoute == ROUTE_A) {
+                motor.forward_move(40); // Move forward a bit to align the back of the car
+                sleep_ms(400);  
+
+                // Turn to the right and switch to ROUTE_B
+                motor.turn_right(40);
+                sleep_ms(400);
+                
+                motor.forward_move(40);
+                sleep_ms(400);
+
+                // Now we're on Route B
+                currentRoute = ROUTE_B;
             }
-            // if the car is close to the left wall
-            else if(F_Left < SAFE_DISTANCE){
-                motor.CurvedTurnRight(40);
-            }
-            // if all sensors are clear
             else {
                 motor.forward_move(40);
             }
-        } 
-        // if the front sensor detect wall closer 
+        }
         else {
-            // if the right side is clear turn right 
-            if(Right > WALL_DISTANCE && Right > Left){
-                motor.turn_right(40);
-                sleep_ms(400);
-                if(Front > WALL_DISTANCE){
-                    motor.forward_move(40);
+            // switched to the rout A 
+            currentRoute = ROUTE_A;
+
+            if (currentRoute == ROUTE_A){
+                // Too close to right wall, align the car
+                if (F_Right < SAFE_DISTANCE) {
+                    motor.CurvedTurnLeft(40);
                 }
-            }
-            // if the left side is clear turn left
-            else if(Left > WALL_DISTANCE && Left > Right){
-                motor.turn_left(40);
-                sleep_ms(400);
-                if(Front > WALL_DISTANCE){
+                // Too close to left wall, align the car
+                else if (F_Left < SAFE_DISTANCE) {
+                    motor.CurvedTurnRight(40);
+                }
+                else {
+                    // Just right, go straight
                     motor.forward_move(40);
                 }
             }
