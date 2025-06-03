@@ -31,7 +31,9 @@ public:
     void log_turn(float angle_degrees);
     void wifi_connect(std::string ssid, std::string password);
 
-    const std::vector<Waypoint>& get_route() const { return route; }
+    const std::vector<Waypoint>& get_route() const { return route; };
+
+    bool wifi_initialized = false;
 
 private:
     

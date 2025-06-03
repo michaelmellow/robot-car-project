@@ -80,5 +80,6 @@ void DataLogger::wifi_connect(std::string ssid, std::string password) {
         printf("Failed to connect to WiFi\n");
     } else {
         printf("Connected to WiFi\n");
+        wifi_initialized = true;
     }
 }
