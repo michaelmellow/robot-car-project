@@ -1,8 +1,8 @@
 #ifndef _NAVIGATECAR_H_
 #define _NAVIGATECAR_H_
 
-#include "MotorDriver.h"
-#include "Ultrasonic.h"
+#include "MotorClass.h" // Required for MotorClass
+//#include "Ultrasonic.h"
 
 class NavigateCar {
 public: 

@@ -1,5 +1,7 @@
 #include "Ultrasonic.h"
-#include "MotorDriver.h"
+//#include "MotorDriver.h"
+
+
 #include <cstdio>
 
 Ultrasonic::Ultrasonic(uint8_t triggerPin, uint8_t echoPin) : triggerPin_(triggerPin), echoPin_(echoPin), motorsRunning(true) {
@@ -44,7 +46,7 @@ float Ultrasonic::getDistance() {
 
     return distance;
 }
-
+/*
 void Ultrasonic::TestSensor() {
     float distance = getDistance();
 
@@ -64,3 +66,4 @@ void Ultrasonic::TestSensor() {
         motorsRunning = true;
     }
 }
+*/

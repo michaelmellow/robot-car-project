@@ -19,8 +19,8 @@ void MazeSolver::create_junction(sensor_status sensors){
     current_junction.reset();
 
     current_junction.forward = sensors.front_open ? 0 : 2;
-    current_junction.left = sensors.left_open ? 0 : 2;
-    current_junction.right = sensors.right_open ? 0 : 2;
+    current_junction.left = sensors.back_left_open ? 0 : 2;
+    current_junction.right = sensors.back_right_open ? 0 : 2;
     
     if (!path_history.empty()) {
         current_junction.backward = 1;
@@ -119,42 +119,27 @@ bool MazeSolver::get_is_backtracking(){
     return is_backtracking;
 }
 
+
 MotorDirection MazeSolver::adjust (sensor_reading sensors){
+    using enum MotorDirection;
+    
+    // if the car is close to the right wall
+    if(sensors.forward_right < SENSOR_DIFFERENCE){
+        
+        return D_CURVED_LEFT;
+    }
+    // if the car is close to the left wall
+    else if(sensors.forward_left < SENSOR_DIFFERENCE){
+        
+        return D_CURVED_RIGHT;
+    }
+    // if all sensors are clear
+    else {
+        
+        return D_FORWARD;
+    }
+} 
 
-    if(Front > WALL_DISTANCE){
-            // if the car is close to the right wall
-            if(F_Right < WALL_DISTANCE){
-                motor.CurvedTurnLeft(40);
-            }
-            // if the car is close to the left wall
-            else if(F_Left < WALL_DISTANCE){
-                motor.CurvedTurnRight(40);
-            }
-            // if all sensors are clear
-            else {
-                motor.forward_move(40);
-            }
-        } 
-        // if the front sensor detects a nearby wall
-        else {
-            // if the right side is clear
-            if(Right > WALL_DISTANCE && Right > Left){
-                motor.turn_right(40);
-                sleep_ms(400);
-                if(Front > WALL_DISTANCE){
-                    motor.forward_move(40);
-                }
-            }
-            // if the left side is clear
-            else if(Left > WALL_DISTANCE && Left > Right){
-                motor.turn_left(40);
-                sleep_ms(400);
-                if(Front > WALL_DISTANCE){
-                    motor.forward_move(40);
-                }
-            }
-        }
 
-}
 
 

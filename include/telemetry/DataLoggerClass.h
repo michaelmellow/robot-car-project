@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <cmath>
+#include <cstdint> 
+
 
 struct Waypoint {
     float x = 0.0f;          
@@ -12,10 +14,7 @@ struct Waypoint {
     float heading = 0.0f;
 };
 
-
-
 enum class MotorDirection; // forward declaration from MotorClass.h
-
 
 class DataLogger {
 public:

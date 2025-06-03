@@ -1,17 +1,15 @@
 #include "Car.h"
 // #include "testBasicMotors.cpp"
 
-
-//Car::Car() : motorController(&dataLogger) {}
 Car::Car(){}
 
-//#todo add car adjustment during maze traversal
 bool Car::update_tremaux(){
-
+    
+    // #todo change how update_readings returns so that if all sensors are not open - deadend is detected
     auto result = sensorArray.update_readings();
 
-    //MotorDirection adjustment_direction = sensorArray.find_adjustment() ~
-    //motorController.adjust(adjustment_direction) ~ need to make something like this
+    MotorDirection adjustment_direction = mazeSolver.adjust(sensorArray.current_readings());
+    motorController.turn_to_direction(adjustment_direction, speed_);
 
     //if junction is found
     if (result){
@@ -33,17 +31,16 @@ bool Car::update_tremaux(){
         motorController.turn_to_direction(chosen_direction, speed_);
         motorController.forward_move(speed_);
 
-        if (mazeSolver.get_is_backtracking()){
-
-            std::cout <<"Is now backtracking!";
-        }
-        std::cout<< "Chosen Direction\n" << "--" << chosen_direction << "\n";
-        sensorArray.print_current_readings();
-        mazeSolver.print_current_junction();
-        std::cout <<"\n";
+        test_print_data();
     }
 
     return true;
+}
+
+bool Car::update_wall_follow(){
+
+
+    return false;
 }
 
 //void Car::update_following(){}
@@ -98,7 +95,16 @@ void Car::test_stop(){
     motorController.stop();
 }
 
-const float Car::sensor_difference(){
+void Car::test_print_data(){
+    
+    if (mazeSolver.get_is_backtracking()){
 
-    return SENSOR_DIFFERENCE;
+        std::cout <<"Is now backtracking!";
+    }
+
+    //std::cout<< "Chosen Direction\n" << "--" << chosen_direction << "\n";
+    sensorArray.print_current_readings();
+    mazeSolver.print_current_junction();
+    std::cout <<"\n";
+    
 }

@@ -1,5 +1,3 @@
-#include "MotorClass.h"
-#include "Ultrasonic.h"
 #include "ReactToDistance.h"
 
 NavigateCar::NavigateCar()

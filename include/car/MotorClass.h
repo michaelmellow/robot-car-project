@@ -1,8 +1,8 @@
 #ifndef __MOTORCLASS_H_
 #define __MOTORCLASS_H_
 
-#include "MotorDriver.h"
-#include "DataLoggerClass.h"
+#include <MotorDriver.h> // Required for DIR
+#include <DataLoggerClass.h> // Required for DataLogger
 
 #include <iostream>
 
@@ -14,6 +14,8 @@ enum class MotorDirection {
     D_TURN_LEFT,
     D_TURN_RIGHT,
     D_STOP,
+    D_CURVED_LEFT,
+    D_CURVED_RIGHT,
 };
 std::ostream& operator<<(std::ostream& os, MotorDirection direction);
 
