@@ -2,7 +2,7 @@
 #include <array>
 #include <iostream>
 
-#include <MotorClass.h>
+#include "MotorClass.h"
 
 //enum class MotorDirection; // forward declaration from MotorClass.h
 

@@ -1,7 +1,7 @@
 #ifndef _NAVIGATECAR_H_
 #define _NAVIGATECAR_H_
 
-#include "MotorDriver.h"
+#include "MotorClass.h"
 #include "Ultrasonic.h"
 
 class NavigateCar {
