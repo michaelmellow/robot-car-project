@@ -38,11 +38,7 @@ private:
     std::vector<Waypoint> route;
     float current_x = 0.0f, current_y = 0.0f;
     float current_heading = 0.0f; // radians
-private:
-    
-    std::vector<Waypoint> route;
-    float current_x = 0.0f, current_y = 0.0f;
-    float current_heading = 0.0f; // radians
+
 };
 
 #endif

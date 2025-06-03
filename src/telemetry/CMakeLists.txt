@@ -6,8 +6,7 @@ target_include_directories(Telemetry PUBLIC ../../include/telemetry)
 
 
 
-target_link_libraries(Telemetry PUBLIC Devices Car Config
-pico_cyw43_arch_lwip_poll
-pico_cyw43_arch_lwip_threadsafe_background)
+target_link_libraries(Telemetry PUBLIC Devices Car Config pico_cyw43_arch_lwip_poll
+)
 
 target_include_directories(Telemetry PRIVATE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/..)
