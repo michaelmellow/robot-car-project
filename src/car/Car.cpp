@@ -6,33 +6,34 @@ Car::Car(){}
 bool Car::update_tremaux(){
     
     // #todo change how update_readings returns so that if all sensors are not open - deadend is detected
-    auto result = sensorArray.update_readings();
+    sensorArray.update_sensors();
 
     MotorDirection adjustment_direction = mazeSolver.adjust(sensorArray.current_readings());
     motorController.turn_to_direction(adjustment_direction, speed_);
 
     //if junction is found
-    if (result){
-        //if not currently backtracking, make new junction
-        if (!mazeSolver.get_is_backtracking()){
 
-            mazeSolver.create_junction(result.value());
-        }
+    //if not currently backtracking, make new junction
 
-        else mazeSolver.check_backtracking_status();
 
-        DEV_Delay_ms(1000); // experiment with value;
-        motorController.stop();
+    if (!mazeSolver.get_is_backtracking()){
 
-        MotorDirection chosen_direction = mazeSolver.choose_direction();
-        
-        if (chosen_direction == MotorDirection::D_STOP) return false;
+        mazeSolver.create_junction(sensorArray.current_status());
+    }
 
-        motorController.turn_to_direction(chosen_direction, speed_);
-        motorController.forward_move(speed_);
+    else mazeSolver.check_backtracking_status();
+
+    DEV_Delay_ms(1000); // experiment with value;
+    motorController.stop();
+
+    MotorDirection chosen_direction = mazeSolver.choose_direction();
+    
+    if (chosen_direction == MotorDirection::D_STOP) return false;
+
+    motorController.turn_to_direction(chosen_direction, speed_);
+    motorController.forward_move(speed_);
 
         test_print_data();
-    }
 
     return true;
 }

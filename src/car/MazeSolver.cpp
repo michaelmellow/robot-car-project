@@ -31,13 +31,13 @@ void MazeSolver::create_junction(sensor_status sensors){
 
 
 void MazeSolver::update_junction(junction &junc, MotorDirection &dir){
-    using enum MotorDirection;
+    //using enum MotorDirection;
 
     switch (dir){
         
-        case D_FORWARD: is_backtracking ? junc.backward++ : junc.forward++; break;
-        case D_TURN_LEFT: junc.left++; break;
-        case D_TURN_RIGHT: junc.right++; break;
+        case MotorDirection::D_FORWARD: is_backtracking ? junc.backward++ : junc.forward++; break;
+        case MotorDirection::D_TURN_LEFT: junc.left++; break;
+        case MotorDirection::D_TURN_RIGHT: junc.right++; break;
         default: break;
     }
 }
@@ -77,11 +77,11 @@ MotorDirection MazeSolver::choose_direction(){
 } 
 
 MotorDirection MazeSolver::flip_direction(MotorDirection &dir){
-    using enum MotorDirection;
+    //using enum MotorDirection;
 
     switch(dir) {
-        case D_TURN_LEFT: return D_TURN_RIGHT;
-        case D_TURN_RIGHT: return D_TURN_LEFT;
+        case MotorDirection::D_TURN_LEFT: return MotorDirection::D_TURN_RIGHT;
+        case MotorDirection::D_TURN_RIGHT: return MotorDirection::D_TURN_LEFT;
         
         default: return dir;
     }
@@ -121,22 +121,22 @@ bool MazeSolver::get_is_backtracking(){
 
 
 MotorDirection MazeSolver::adjust (sensor_reading sensors){
-    using enum MotorDirection;
+    //using enum MotorDirection;
     
     // if the car is close to the right wall
     if(sensors.forward_right < SENSOR_DIFFERENCE){
         
-        return D_CURVED_LEFT;
+        return MotorDirection::D_CURVED_LEFT;
     }
     // if the car is close to the left wall
     else if(sensors.forward_left < SENSOR_DIFFERENCE){
         
-        return D_CURVED_RIGHT;
+        return MotorDirection::D_CURVED_RIGHT;
     }
     // if all sensors are clear
     else {
         
-        return D_FORWARD;
+        return MotorDirection::D_FORWARD;
     }
 } 
 

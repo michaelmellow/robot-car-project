@@ -111,18 +111,18 @@ void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed
 
 void MotorClass::turn_to_direction(MotorDirection dir, int speed){
     
-    using enum MotorDirection;
+    //using enum MotorDirection;
 
     switch (dir){
 
-        case D_FORWARD: break;
-        case D_TURN_BACKWARD: turn_180(speed);
-        case D_LEFT_LATERAL: left_lateral(speed);
-        case D_RIGHT_LATERAL: right_lateral(speed);
-        case D_TURN_LEFT: turn_right(speed);
-        case D_TURN_RIGHT: turn_left(speed);
-        case D_CURVED_LEFT: CurvedTurnLeft(speed);
-        case D_CURVED_RIGHT: CurvedTurnRight(speed);
+        case MotorDirection::D_FORWARD: break;
+        case MotorDirection::D_TURN_BACKWARD: turn_180(speed);
+        case MotorDirection::D_LEFT_LATERAL: left_lateral(speed);
+        case MotorDirection::D_RIGHT_LATERAL: right_lateral(speed);
+        case MotorDirection::D_TURN_LEFT: turn_right(speed);
+        case MotorDirection::D_TURN_RIGHT: turn_left(speed);
+        case MotorDirection::D_CURVED_LEFT: CurvedTurnLeft(speed);
+        case MotorDirection::D_CURVED_RIGHT: CurvedTurnRight(speed);
         default: break;
     }
 }

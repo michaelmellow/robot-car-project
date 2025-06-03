@@ -37,7 +37,17 @@ struct sensor_status{
     bool forward_left_open;
     bool forward_right_open; 
     bool back_left_open;
-    bool back_right_open;   
+    bool back_right_open; 
+
+    void update(sensor_status new_sensor_status){
+        
+        front_open = new_sensor_status.front_open;
+        forward_left_open = new_sensor_status.forward_left_open;
+        forward_right_open = new_sensor_status.forward_right_open;
+        back_left_open = new_sensor_status.back_left_open;
+        back_right_open = new_sensor_status.back_right_open;
+
+    } 
 };
 
 class SensorArray{
@@ -51,8 +61,10 @@ class SensorArray{
             sensor_back_left(11,10),
             sensor_back_right(12,19) {}  
       
-        std::optional<sensor_status> update_readings();
+        void update_sensors();
+
         sensor_reading current_readings();
+        sensor_status current_status();
 
         void print_current_readings ();
 
@@ -60,6 +72,7 @@ class SensorArray{
         const float SENSOR_DIFFERENCE = 15.0;
 
         sensor_reading current_sensor_reading {0.0, 0.0, 0.0, 0.0, 0.0};
+        sensor_status current_sensor_status;
 
         Ultrasonic sensor_front;
         Ultrasonic sensor_forward_left;
