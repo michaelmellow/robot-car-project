@@ -4,6 +4,8 @@
 #include "MotorDriver.h"
 #include "DataLoggerClass.h"
 
+#include <iostream>
+
 enum class MotorDirection {
     D_FORWARD,
     D_TURN_BACKWARD,
@@ -13,6 +15,7 @@ enum class MotorDirection {
     D_TURN_RIGHT,
     D_STOP,
 };
+std::ostream& operator<<(std::ostream& os, MotorDirection direction);
 
 class MotorClass {
 public:
@@ -53,9 +56,6 @@ public:
     void turn_to_direction(MotorDirection dir, int speed);
 
 
-
-
-
     bool is_active = false;
 
 private:
@@ -74,7 +74,7 @@ private:
     /// @param speed the speed (0~100) to move at
     void motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed);
     
-    float car_width = 15; //cm
+    float car_width = 11; //cm
 };
 
 #endif

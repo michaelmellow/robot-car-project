@@ -17,7 +17,7 @@ void MotorClass::forward_move(int speed) {
     is_active = true;
 
     motor_running(FORWARD, FORWARD, FORWARD, FORWARD, speed);
-    dataLogger->log_waypoint(speed, MotorDirection::D_FORWARD);
+    //dataLogger->log_waypoint(speed, MotorDirection::D_FORWARD);
 
 }
 
@@ -27,7 +27,7 @@ void MotorClass::backward_move(int speed) {
 
     motor_running(BACKWARD, BACKWARD, BACKWARD, BACKWARD, speed);
 
-    dataLogger->log_waypoint(speed, MotorDirection::D_BACKWARD);
+    //dataLogger->log_waypoint(speed, MotorDirection::D_TURN_BACKWARD);
 
 }
 
@@ -37,7 +37,7 @@ void MotorClass::left_lateral(int speed) {
 
     motor_running(BACKWARD, FORWARD, FORWARD, BACKWARD, speed);
 
-    dataLogger->log_waypoint(speed, MotorDirection::D_LEFT_LATERAL);
+    //dataLogger->log_waypoint(speed, MotorDirection::D_LEFT_LATERAL);
 
 }
 
@@ -47,7 +47,7 @@ void MotorClass::right_lateral(int speed) {
 
     motor_running(FORWARD, BACKWARD, BACKWARD, FORWARD, speed);
 
-    dataLogger->log_waypoint(speed, MotorDirection::D_RIGHT_LATERAL);
+    //dataLogger->log_waypoint(speed, MotorDirection::D_RIGHT_LATERAL);
 
 }
 
@@ -71,7 +71,7 @@ void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
 
         DEV_Delay_ms(10);
     }
-    dataLogger->log_turn(angle);
+    //dataLogger->log_turn(angle);
     stop();
 }
 
@@ -122,5 +122,18 @@ void MotorClass::turn_to_direction(MotorDirection dir, int speed){
         case D_TURN_LEFT: turn_right(speed);
         case D_TURN_RIGHT: turn_left(speed);
         default: break;
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, MotorDirection direction) {
+    switch (direction) {
+        case MotorDirection::D_FORWARD: return os << "D_FORWARD";
+        case MotorDirection::D_TURN_BACKWARD: return os << "D_TURN_BACKWARD";
+        case MotorDirection::D_LEFT_LATERAL: return os << "D_LEFT_LATERAL";
+        case MotorDirection::D_RIGHT_LATERAL: return os << "D_RIGHT_LATERAL";
+        case MotorDirection::D_TURN_LEFT: return os << "D_TURN_LEFT";
+        case MotorDirection::D_TURN_RIGHT: return os << "D_TURN_RIGHT";
+        case MotorDirection::D_STOP: return os << "D_STOP";
+        default: return os << "ERROR";
     }
 }

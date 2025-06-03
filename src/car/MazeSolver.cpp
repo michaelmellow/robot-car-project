@@ -102,11 +102,12 @@ void MazeSolver::check_backtracking_status() {
 
 void MazeSolver::print_current_junction() {
     std::cout << "Current Junction State:\n";
-    std::cout << "Forward: " << current_junction.forward << "\n";
-    std::cout << "Left: " << current_junction.left << "\n";
-    std::cout << "Right: " << current_junction.right << "\n";
-    std::cout << "Backward: " << current_junction.backward << "\n";
+    std::cout << "--Forward: " << current_junction.forward << "\n";
+    std::cout << "--Left: " << current_junction.left << "\n";
+    std::cout << "--Right: " << current_junction.right << "\n";
+    std::cout << "--Backward: " << current_junction.backward << "\n";
 }
+
 
 junction MazeSolver::get_current_junction(){
 
@@ -116,6 +117,44 @@ junction MazeSolver::get_current_junction(){
 bool MazeSolver::get_is_backtracking(){
 
     return is_backtracking;
+}
+
+MotorDirection MazeSolver::adjust (sensor_reading sensors){
+
+    if(Front > WALL_DISTANCE){
+            // if the car is close to the right wall
+            if(F_Right < WALL_DISTANCE){
+                motor.CurvedTurnLeft(40);
+            }
+            // if the car is close to the left wall
+            else if(F_Left < WALL_DISTANCE){
+                motor.CurvedTurnRight(40);
+            }
+            // if all sensors are clear
+            else {
+                motor.forward_move(40);
+            }
+        } 
+        // if the front sensor detects a nearby wall
+        else {
+            // if the right side is clear
+            if(Right > WALL_DISTANCE && Right > Left){
+                motor.turn_right(40);
+                sleep_ms(400);
+                if(Front > WALL_DISTANCE){
+                    motor.forward_move(40);
+                }
+            }
+            // if the left side is clear
+            else if(Left > WALL_DISTANCE && Left > Right){
+                motor.turn_left(40);
+                sleep_ms(400);
+                if(Front > WALL_DISTANCE){
+                    motor.forward_move(40);
+                }
+            }
+        }
+
 }
 
 

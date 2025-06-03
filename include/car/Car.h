@@ -15,7 +15,14 @@ class Car{
         void stop();
         bool update_tremaux();
 
+        void test_start();
+        void test_stop();
+
         int speed();
+        const float sensor_difference();
+        
+        static constexpr float SENSOR_DIFFERENCE = 15.0;
+
         DataLogger& getDataLogger();
         MazeSolver& getMazeSolver();
         MotorClass& getMotorController();
@@ -29,7 +36,10 @@ class Car{
 
         uint32_t start_time = 0;
         float total_time = 0;
-        int speed_ = 100;
+        int speed_ = 40;
+        
+        //const float SENSOR_DIFFERENCE = 15.0; // experiment with value
+
         
 };
 

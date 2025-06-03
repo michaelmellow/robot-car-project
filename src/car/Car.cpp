@@ -9,6 +9,7 @@ Car::Car(){}
 bool Car::update_tremaux(){
 
     auto result = sensorArray.update_readings();
+
     //MotorDirection adjustment_direction = sensorArray.find_adjustment() ~
     //motorController.adjust(adjustment_direction) ~ need to make something like this
 
@@ -20,16 +21,29 @@ bool Car::update_tremaux(){
             mazeSolver.create_junction(result.value());
         }
 
-        DEV_Delay_ms(100); // experiment with value;
+        else mazeSolver.check_backtracking_status();
+
+        DEV_Delay_ms(1000); // experiment with value;
         motorController.stop();
 
         MotorDirection chosen_direction = mazeSolver.choose_direction();
         
-        if (chosen_direction == MotorDirection::D_STOP) return true;
+        if (chosen_direction == MotorDirection::D_STOP) return false;
 
         motorController.turn_to_direction(chosen_direction, speed_);
         motorController.forward_move(speed_);
-    } 
+
+        if (mazeSolver.get_is_backtracking()){
+
+            std::cout <<"Is now backtracking!";
+        }
+        std::cout<< "Chosen Direction\n" << "--" << chosen_direction << "\n";
+        sensorArray.print_current_readings();
+        mazeSolver.print_current_junction();
+        std::cout <<"\n";
+    }
+
+    return true;
 }
 
 //void Car::update_following(){}
@@ -73,3 +87,18 @@ DataLogger& Car::getDataLogger() {
     return dataLogger;
 }
 
+
+void Car::test_start(){
+
+    motorController.forward_move(40);
+}
+
+void Car::test_stop(){
+
+    motorController.stop();
+}
+
+const float Car::sensor_difference(){
+
+    return SENSOR_DIFFERENCE;
+}

@@ -36,10 +36,11 @@ void DataLogger::log_waypoint(int speed, MotorDirection direction){
             current_y += distance * std::sin(current_heading);
             break;
 
-        case MotorDirection::D_BACKWARD:
+        case MotorDirection::D_TURN_BACKWARD:
             current_x -= distance * std::cos(current_heading);
             current_y -= distance * std::sin(current_heading);
             break;
+        
 
         case MotorDirection::D_LEFT_LATERAL:
             current_x += distance * std::cos(current_heading - M_PI_2);

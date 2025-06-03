@@ -1,5 +1,7 @@
 #include "Ultrasonic.h"
+#include "Car.h"
 #include <optional>
+#include <iostream>
 
 struct sensor_reading{
 
@@ -15,7 +17,6 @@ struct sensor_reading{
         left = new_sensor_reading.left;
         right = new_sensor_reading.right;
     }
-
 };
 
 struct sensor_status{
@@ -23,15 +24,15 @@ struct sensor_status{
     bool front_open;
     bool left_open;
     bool right_open;    
-
 };
 
-class SensorArray{
+class SensorArray : public Car{
 
     public:
         
-        SensorArray() : sensor_front(15, 16), sensor_left(14, 17), sensor_right(13, 18) {}        
+        SensorArray() : sensor_front(15, 16), sensor_left(11, 10), sensor_right(12, 19) {}        
         std::optional<sensor_status> update_readings();
+        void print_current_readings ();
 
     private:
 
