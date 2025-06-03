@@ -1,37 +1,52 @@
 #ifndef __CAR_H_
 #define __CAR_H_
 
-#include "MotorClass.h"
+#include "Car.h"
 #include "DataLoggerClass.h"
-#include "Ultrasonic.h"
-#include "ReactToDistance.h"
 #include "MazeSolver.h"
-#include "Ultrasonic.h"
+#include "MotorClass.h"
+#include "ReactToDistance.h"
+#include "SensorArray.h"
+
+#include <optional>
+
+class DataLogger; // forward declaration of needed classes.
+class MazeSolver;
+class MotorClass;
+class SensorArray;
 
 class Car{
     public:
         Car();
         void start();
         void stop();
-        void update();
+        void test_start();
+        void test_stop();
+        void test_print_data();
+
+
+        bool update_tremaux();
+        bool update_wall_follow();
 
         int speed();
+        
         DataLogger& getDataLogger();
         MazeSolver& getMazeSolver();
         MotorClass& getMotorController();
+        SensorArray& getSensorArray();
 
     private:
         DataLogger dataLogger;
         MazeSolver mazeSolver;
         MotorClass motorController;
-        
-        //Ultrasonic ultraSonicFront(15,16);
-        //Ultrasonic ultraSonicLeft(14,17);
-        //Ultrasonic ultraSonicRight(13,18);
+        SensorArray sensorArray;
 
         uint32_t start_time = 0;
         float total_time = 0;
-        int speed_ = 100;
+        int speed_ = 40;
+        
+        //const float SENSOR_DIFFERENCE = 15.0; // experiment with value
+
         
 };
 

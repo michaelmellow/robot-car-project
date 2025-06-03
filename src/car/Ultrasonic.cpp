@@ -1,5 +1,7 @@
 #include "Ultrasonic.h"
-#include "MotorDriver.h"
+//#include "MotorDriver.h"
+
+
 #include <cstdio>
 
 Ultrasonic::Ultrasonic(uint8_t triggerPin, uint8_t echoPin) : triggerPin_(triggerPin), echoPin_(echoPin), motorsRunning(true) {
@@ -22,7 +24,7 @@ float Ultrasonic::getDistance() {
     // Wait for echo to go HIGH
     while (DEV_Digital_Read(echoPin_) == 0 && time_us_32() < timeout);
     if (time_us_32() >= timeout) {
-        printf("Echo start timeout!\n");
+        //printf("Echo start timeout!\n");
         return -1;
     }
     uint32_t startTime = time_us_32();
@@ -31,20 +33,20 @@ float Ultrasonic::getDistance() {
     timeout = startTime + 30000;
     while (DEV_Digital_Read(echoPin_) == 1 && time_us_32() < timeout);
     if (time_us_32() >= timeout) {
-        printf("Echo end timeout!\n");
+        //printf("Echo end timeout!\n");
         return -1;
     }
     uint32_t endTime = time_us_32();
 
     pulseDuration = endTime - startTime;
-    printf("Pulse Duration: %d microseconds\n", pulseDuration);
+    //printf("Pulse Duration: %d microseconds\n", pulseDuration);
 
     distance = pulseDuration * 0.0343 / 2.0;
-    printf("Distance: %.2f cm\n", distance);
+    //printf("Distance: %.2f cm\n", distance);
 
     return distance;
 }
-
+/*
 void Ultrasonic::TestSensor() {
     float distance = getDistance();
 
@@ -64,3 +66,4 @@ void Ultrasonic::TestSensor() {
         motorsRunning = true;
     }
 }
+*/

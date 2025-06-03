@@ -1,7 +1,7 @@
 #ifndef __BOTTOMSENSOR_H_
 #define __BOTTOMSENSOR_H_
 
-#include "Car.h"
+//#include "Car.h"
 #include "hardware/adc.h"
 
 class BottomSensor {

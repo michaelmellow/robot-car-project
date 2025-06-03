@@ -1,22 +1,29 @@
 #ifndef __MOTORCLASS_H_
 #define __MOTORCLASS_H_
 
-#include "MotorDriver.h"
-#include "DataLoggerClass.h"
+#include <MotorDriver.h> // Required for DIR
+#include <DataLoggerClass.h> // Required for DataLogger
+
+#include <iostream>
 
 enum class MotorDirection {
     D_FORWARD,
-    D_BACKWARD,
+    D_TURN_BACKWARD,
     D_LEFT_LATERAL,
     D_RIGHT_LATERAL,
     D_TURN_LEFT,
-    D_TURN_RIGHT
+    D_TURN_RIGHT,
+    D_STOP,
+    D_CURVED_LEFT,
+    D_CURVED_RIGHT,
 };
+std::ostream& operator<<(std::ostream& os, MotorDirection direction);
 
 class MotorClass {
 public:
     //constructor
-    MotorClass(DataLogger* dataLogger);
+    //MotorClass(DataLogger* dataLogger);
+    MotorClass();
 
     //movement
     
@@ -47,6 +54,8 @@ public:
 
     /// @brief stops all car movements
     void stop();
+
+    void turn_to_direction(MotorDirection dir, int speed);
 
     /// @brief turns the car a bit to the right 
     void CurvedTurnRight(int speed);

@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <cmath>
+#include <cstdint> 
+
 #include <string>
 
 #include "pico/cyw43_arch.h"
@@ -17,10 +19,7 @@ struct Waypoint {
     float heading = 0.0f;
 };
 
-
-
 enum class MotorDirection; // forward declaration from MotorClass.h
-
 
 class DataLogger {
 public:

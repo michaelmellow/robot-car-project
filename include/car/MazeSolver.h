@@ -1,10 +1,12 @@
+#ifndef MAZE_SOLVER_H
+#define MAZE_SOLVER_H
+
+#include "MotorClass.h"  // Required for MotorDirection
+#include "SensorArray.h" // Required for sensor_status
+
 #include <stack>
 #include <array>
 #include <iostream>
-
-#include "MotorClass.h"
-
-//enum class MotorDirection; // forward declaration from MotorClass.h
 
 struct junction{
 
@@ -43,18 +45,21 @@ class MazeSolver{
     public:
         MazeSolver();
 
-        void create_junction(bool front_open, bool left_open, bool right_open);
+        void create_junction(sensor_status sensors);
         void update_junction(junction &junc, MotorDirection &dir);
-        
         void handle_deadend();
         void check_backtracking_status();
-
         void print_current_junction();
 
         MotorDirection get_best_path (junction &junc);
         MotorDirection choose_direction();
-        
         MotorDirection flip_direction(MotorDirection &dir);
+        MotorDirection adjust (sensor_reading sensors);
+
+
+        junction get_current_junction();
+
+        bool get_is_backtracking();
 
     private:
         
@@ -63,5 +68,10 @@ class MazeSolver{
 
         junction current_junction;
         std::stack<junction> path_history;
+
+        const float SENSOR_DIFFERENCE = 15.0;
+
         
 };
+
+#endif
