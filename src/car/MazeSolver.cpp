@@ -26,13 +26,12 @@ void MazeSolver::create_junction(bool front_open, bool left_open, bool right_ope
 
 
 void MazeSolver::update_junction(junction &junc, MotorDirection &dir){
-    using enum MotorDirection;
 
     switch (dir){
         
-        case D_FORWARD: is_backtracking ? junc.backward++ : junc.forward++; break;
-        case D_TURN_LEFT: junc.left++; break;
-        case D_TURN_RIGHT: junc.right++; break;
+        case MotorDirection::D_FORWARD: is_backtracking ? junc.backward++ : junc.forward++; break;
+        case MotorDirection::D_TURN_LEFT: junc.left++; break;
+        case MotorDirection::D_TURN_RIGHT: junc.right++; break;
         default: break;
     }
 }
@@ -65,11 +64,10 @@ MotorDirection MazeSolver::choose_direction(){
 } 
 
 MotorDirection MazeSolver::flip_direction(MotorDirection &dir){
-    using enum MotorDirection;
 
     switch(dir) {
-        case D_TURN_LEFT: return D_TURN_RIGHT;
-        case D_TURN_RIGHT: return D_TURN_LEFT;
+        case MotorDirection::D_TURN_LEFT: return MotorDirection::D_TURN_RIGHT;
+        case MotorDirection::D_TURN_RIGHT: return MotorDirection::D_TURN_LEFT;
         
         default: return dir;
     }
