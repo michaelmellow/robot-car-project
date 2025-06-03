@@ -13,5 +13,6 @@ void new_test(Car car);
 
 void turn_test();
 
+void Navigate();
 
 #endif

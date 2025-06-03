@@ -8,10 +8,10 @@ public:
     //constructor
     Ultrasonic(uint8_t triggerPin, uint8_t echoPin);
 
-    // get the distance
+    /// @brief get the sensor's distance
     float getDistance();
-    // detect obstacles 
-    void checkAndControlMotors();
+    /// @brief Sensors test
+    void TestSensor();
 
 private:
     uint8_t triggerPin_;

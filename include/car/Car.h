@@ -3,6 +3,8 @@
 
 #include "MotorClass.h"
 #include "DataLoggerClass.h"
+#include "Ultrasonic.h"
+#include "ReactToDistance.h"
 #include "MazeSolver.h"
 #include "Ultrasonic.h"
 

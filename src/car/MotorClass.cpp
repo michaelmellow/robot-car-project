@@ -75,6 +75,21 @@ void MotorClass::turn(int speed, DIR dir1, DIR dir2) {
     stop();
 }
 
+void MotorClass::turn_right(int speed) {
+    turn(speed, FORWARD, BACKWARD);
+}
+
+void MotorClass::turn_left(int speed) {
+    turn(speed, BACKWARD, FORWARD);
+}
+
+void MotorClass::turn_180(int speed) {
+    turn_right(speed);
+    stop();
+    sleep_ms(10);
+    turn_right(speed);
+}
+
 void MotorClass::stop() {
     
     Motor_Stop(MOTORA);
@@ -136,4 +151,18 @@ std::ostream& operator<<(std::ostream& os, MotorDirection direction) {
         case MotorDirection::D_STOP: return os << "D_STOP";
         default: return os << "ERROR";
     }
+void MotorClass::CurvedTurnRight(int speed)
+{
+    Motor_Run(MOTORA, FORWARD, speed);
+    Motor_Run(MOTORB, FORWARD, speed / 2);
+    Motor_Run(MOTORC, FORWARD, speed);
+    Motor_Run(MOTORD, FORWARD, speed / 2);
+}
+
+void MotorClass::CurvedTurnLeft(int speed)
+{
+    Motor_Run(MOTORA, FORWARD, speed / 2);
+    Motor_Run(MOTORB, FORWARD, speed);
+    Motor_Run(MOTORC, FORWARD, speed / 2);
+    Motor_Run(MOTORD, FORWARD, speed);
 }

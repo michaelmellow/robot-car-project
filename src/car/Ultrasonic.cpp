@@ -45,7 +45,7 @@ float Ultrasonic::getDistance() {
     return distance;
 }
 
-void Ultrasonic::checkAndControlMotors() {
+void Ultrasonic::TestSensor() {
     float distance = getDistance();
 
     if (distance < 25 && motorsRunning) {

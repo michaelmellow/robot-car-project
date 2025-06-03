@@ -55,6 +55,11 @@ public:
 
     void turn_to_direction(MotorDirection dir, int speed);
 
+    /// @brief turns the car a bit to the right 
+    void CurvedTurnRight(int speed);
+
+    /// @brief turns the car a bit to the left
+    void CurvedTurnLeft(int speed);
 
     bool is_active = false;
 
