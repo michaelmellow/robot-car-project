@@ -71,16 +71,16 @@ void DataLogger::log_turn(float angle_degrees){
 
 void DataLogger::wifi_connect(std::string ssid, std::string password) {
     if (cyw43_arch_init()) {
-        printf("WiFi init failed\n");
+        std::cout << "WiFi init failed\n";
         return;
     }
 
     cyw43_arch_enable_sta_mode();
 
     if (cyw43_arch_wifi_connect_timeout_ms(ssid.c_str(), password.c_str(), CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-        printf("Failed to connect to WiFi\n");
+        std::cout << "Failed to connect to WiFi\n";
     } else {
-        printf("Connected to WiFi\n");
+        std::cout << "Connected to WiFi\n";
         wifi_initialized = true;
     }
 }
