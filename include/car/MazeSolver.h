@@ -51,15 +51,13 @@ class MazeSolver{
         void check_backtracking_status();
         void print_current_junction();
 
-        MotorDirection get_best_path (junction &junc);
         MotorDirection choose_direction();
         MotorDirection flip_direction(MotorDirection &dir);
         MotorDirection adjust (sensor_reading sensors);
 
-
         junction get_current_junction();
-
         bool get_is_backtracking();
+        std::stack<junction> get_path_history();
 
     private:
         

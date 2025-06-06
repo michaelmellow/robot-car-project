@@ -47,7 +47,7 @@ struct sensor_status{
         back_left_open = new_sensor_status.back_left_open;
         back_right_open = new_sensor_status.back_right_open;
 
-    } 
+    }
 };
 
 class SensorArray{
@@ -62,14 +62,16 @@ class SensorArray{
             sensor_back_right(12,19) {}  
       
         void update_sensors();
+        void print_current_readings ();
 
         sensor_reading current_readings();
         sensor_status current_status();
 
-        void print_current_readings ();
+        bool compare(sensor_status current_sensor_status, sensor_status new_sensor_status);
+
 
     private:
-        const float SENSOR_DIFFERENCE = 15.0;
+        const float SENSOR_DIFFERENCE = 30.0;
 
         sensor_reading current_sensor_reading {0.0, 0.0, 0.0, 0.0, 0.0};
         sensor_status current_sensor_status;

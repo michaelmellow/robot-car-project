@@ -44,4 +44,12 @@ sensor_status SensorArray::current_status(){
     return current_sensor_status;
 }
 
-
+bool SensorArray::compare(sensor_status current_sensor_status, sensor_status new_sensor_status) {
+        
+    return (
+        current_sensor_status.front_open != new_sensor_status.front_open ||
+        current_sensor_status.forward_left_open != new_sensor_status.forward_left_open ||
+        current_sensor_status.forward_right_open != new_sensor_status.forward_right_open ||
+        current_sensor_status.back_left_open != new_sensor_status.back_left_open ||
+        current_sensor_status.back_right_open != new_sensor_status.back_right_open);
+}

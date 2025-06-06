@@ -7,6 +7,13 @@
 #include "ReactToDistance.h"
 #include "TestFunctions.h"
 #include <stdio.h>
+/*
+int main(void){
+
+    Navigate();
+
+}
+*/
 
 int main(void){
     
@@ -29,6 +36,7 @@ int main(void){
     std::cout<<"Car stop!\n";
 
 }
+
 
 /*
 int main(void)

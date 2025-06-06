@@ -5,35 +5,54 @@ Car::Car(){}
 
 bool Car::update_tremaux(){
     
-    // #todo change how update_readings returns so that if all sensors are not open - deadend is detected
     sensorArray.update_sensors();
+    const sensor_reading current_readings = sensorArray.current_readings();
+    const sensor_status current_status = sensorArray.current_status();
 
-    MotorDirection adjustment_direction = mazeSolver.adjust(sensorArray.current_readings());
-    motorController.turn_to_direction(adjustment_direction, speed_);
+    MotorDirection adjustment_direction = mazeSolver.adjust(current_readings);
 
-    //if junction is found
+    if (adjustment_direction != MotorDirection::D_FORWARD){
 
-    //if not currently backtracking, make new junction
-
-
-    if (!mazeSolver.get_is_backtracking()){
-
-        mazeSolver.create_junction(sensorArray.current_status());
+        motorController.move_to_direction(adjustment_direction, speed_);
+        return true;
     }
-
-    else mazeSolver.check_backtracking_status();
-
-    DEV_Delay_ms(1000); // experiment with value;
-    motorController.stop();
-
-    MotorDirection chosen_direction = mazeSolver.choose_direction();
     
-    if (chosen_direction == MotorDirection::D_STOP) return false;
+    //if junction is found
+    if (current_status.back_left_open == true || current_status.back_right_open == true){
 
-    motorController.turn_to_direction(chosen_direction, speed_);
-    motorController.forward_move(speed_);
+        //if not currently backtracking, make new junction
+        if (!mazeSolver.get_is_backtracking()){
+            
+            mazeSolver.create_junction(current_status);
+        }
+
+        else {
+            
+            mazeSolver.check_backtracking_status();
+            
+            if (mazeSolver.get_path_history().empty() == true) return false;
+        }
+           
+        sleep_ms(400);// Move to center of junction
+
+        MotorDirection chosen_direction = mazeSolver.choose_direction();
+        motorController.move_to_direction(chosen_direction, speed_);
+        sleep_ms(400); //adjustment for turn
+
 
         test_print_data();
+        std::cout << "--Chosen Direction : " << chosen_direction << "\n";
+    }
+    //if deadend is found
+    else if (current_status.front_open == false && current_status.back_left_open == false && current_status.back_right_open == false){
+
+        mazeSolver.handle_deadend();
+        
+        motorController.move_to_direction(MotorDirection::D_TURN_BACKWARD, speed_);
+        sleep_ms(400);
+    }
+
+    motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
 
     return true;
 }

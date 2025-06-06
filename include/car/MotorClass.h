@@ -55,7 +55,7 @@ public:
     /// @brief stops all car movements
     void stop();
 
-    void turn_to_direction(MotorDirection dir, int speed);
+    void move_to_direction(MotorDirection dir, int speed);
 
     /// @brief turns the car a bit to the right 
     void CurvedTurnRight(int speed);
