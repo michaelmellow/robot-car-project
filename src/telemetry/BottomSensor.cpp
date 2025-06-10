@@ -27,3 +27,8 @@ void BottomSensor::start_check () {
     }
 
 }
+
+int BottomSensor::get_light_counter()
+{
+    return light_color_counter_;
+}
