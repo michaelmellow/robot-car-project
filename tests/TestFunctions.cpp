@@ -80,6 +80,8 @@ void Navigate()
     Ultrasonic s_right(12, 19);
     Ultrasonic s_left(11, 10);
 
+    BottomSensor bottomsensor;
+
     float WALL_DISTANCE = 15.0f;
     float SAFE_DISTANCE = 17.0f;
     float clear_rout = 30.0f;
@@ -88,6 +90,14 @@ void Navigate()
 
     while(true)
     {
+        bottomsensor.start_check();
+
+        if(bottomsensor.get_light_counter() > 0){
+            printf("Treasure chamber detected! Stopping car...\n");
+            motor.stop();
+            break;
+        }
+
         float Front = s_front.getDistance(); // front distance
         float F_Right = s_F_right.getDistance(); // front distance
         float F_Left = s_F_left.getDistance(); // front distance
