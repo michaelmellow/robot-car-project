@@ -7,6 +7,7 @@
 #include "MotorClass.h"
 #include "ReactToDistance.h"
 #include "SensorArray.h"
+#include "BottomSensor.h"
 
 #include <optional>
 
@@ -23,10 +24,12 @@ class Car{
         void test_start();
         void test_stop();
         void test_print_data();
+        void test_forward();
 
 
         bool update_tremaux();
-        bool update_wall_follow();
+        bool update_follow_stack();
+        void sensor_test();
 
         int speed();
         
@@ -40,6 +43,7 @@ class Car{
         MazeSolver mazeSolver;
         MotorClass motorController;
         SensorArray sensorArray;
+        BottomSensor bottomSensor;
 
         uint32_t start_time = 0;
         float total_time = 0;

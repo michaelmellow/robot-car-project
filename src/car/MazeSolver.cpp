@@ -127,12 +127,12 @@ MotorDirection MazeSolver::adjust (sensor_reading sensors){
     //using enum MotorDirection;
     
     // if the car is close to the right wall
-    if(sensors.forward_right < SENSOR_DIFFERENCE){
+    if(sensors.forward_right > 0 && sensors.forward_right < ADJUST_SENSOR_DIFFERENCE){
         
         return MotorDirection::D_CURVED_LEFT;
     }
     // if the car is close to the left wall
-    else if(sensors.forward_left < SENSOR_DIFFERENCE){
+    else if(sensors.forward_left > 0 && sensors.forward_left < ADJUST_SENSOR_DIFFERENCE){
         
         return MotorDirection::D_CURVED_RIGHT;
     }
@@ -147,4 +147,5 @@ std::stack<junction> MazeSolver::get_path_history(){
 
     return path_history;
 }
+
 

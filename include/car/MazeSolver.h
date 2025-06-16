@@ -67,7 +67,7 @@ class MazeSolver{
         junction current_junction;
         std::stack<junction> path_history;
 
-        const float SENSOR_DIFFERENCE = 15.0;
+        const float ADJUST_SENSOR_DIFFERENCE = 10.0;
 
         
 };

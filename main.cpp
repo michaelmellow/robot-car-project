@@ -6,12 +6,54 @@
 #include "MotorClass.h"
 #include "ReactToDistance.h"
 #include "TestFunctions.h"
-#include <stdio.h>
+
 /*
 int main(void){
 
-    Navigate();
+    stdio_init_all();
 
+    //DEV_Delay_ms(5000);
+
+    sleep_ms(5000);
+
+    Car car;
+
+    while (true){ 
+
+        car.sensor_test();
+
+        sleep_ms(300);
+    }
+}
+*/
+
+
+/*
+int main(void){
+    stdio_init_all();
+
+    while (true){
+        
+        std::cout <<"HellO!\n";
+        sleep_ms(100);
+    }
+}
+*/
+
+
+/*
+int main(void){
+    stdio_init_all();
+    DEV_Delay_ms(5000);
+
+    Ultrasonic test{14,15};
+    float distance;
+    while(true){
+
+        distance = test.getDistance();
+
+        std::cout <<distance<< "\n";
+    }
 }
 */
 
@@ -22,14 +64,19 @@ int main(void){
 
     Car car;
 
-    car.test_start();
+    //car.test_start();
     std::cout<<"Car start!\n";
 
     while (true){
 
         if (car.update_tremaux() == false) break;
+        sleep_ms(300);
+    }
 
-        DEV_Delay_ms(100);
+    while (true){
+
+        if (car.update_follow_stack() == false) break;
+        sleep_ms(300);
     }
 
     car.test_stop();
@@ -39,13 +86,16 @@ int main(void){
 
 
 /*
-int main(void)
-{
-    Ultrasonic front(15, 16);
-    Ultrasonic left(13, 18);
-    Ultrasonic right(14, 17);
+int main (void){
+    stdio_init_all();
+    DEV_Delay_ms(5000);
 
-        //printWaypoints(car.getDataLogger().get_route());
-    }
+    Car car;
+
+    car.test_forward();
+
 }
 */
+
+
+

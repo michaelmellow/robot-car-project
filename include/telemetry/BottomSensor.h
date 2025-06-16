@@ -10,7 +10,7 @@ public:
     BottomSensor();
     
     void start_check ();
-
+    int get_light_color_counter();
 
 private:
     int light_color_counter_{};

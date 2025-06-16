@@ -86,11 +86,13 @@ void MotorClass::stop() {
 }
 
 void MotorClass::turn_right(int speed) {
-    turn(speed, FORWARD, BACKWARD);
+    motor_running(FORWARD, BACKWARD, FORWARD, BACKWARD, speed);
+    sleep_ms(1150);
 }
 
 void MotorClass::turn_left(int speed) {
-    turn(speed, BACKWARD, FORWARD);
+    motor_running(BACKWARD, FORWARD, BACKWARD, FORWARD, speed);
+    sleep_ms(1150);
 }
 
 void MotorClass::turn_180(int speed) {
@@ -112,17 +114,18 @@ void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed
 void MotorClass::move_to_direction(MotorDirection dir, int speed){
     
     //using enum MotorDirection;
+    std::cout << dir << "--------\n";
 
     switch (dir){
 
-        case MotorDirection::D_FORWARD: forward_move(speed);
-        case MotorDirection::D_TURN_BACKWARD: turn_180(speed);
-        case MotorDirection::D_LEFT_LATERAL: left_lateral(speed);
-        case MotorDirection::D_RIGHT_LATERAL: right_lateral(speed);
-        case MotorDirection::D_TURN_LEFT: turn_right(speed);
-        case MotorDirection::D_TURN_RIGHT: turn_left(speed);
-        case MotorDirection::D_CURVED_LEFT: CurvedTurnLeft(speed);
-        case MotorDirection::D_CURVED_RIGHT: CurvedTurnRight(speed);
+        case MotorDirection::D_FORWARD: forward_move(speed); break;
+        case MotorDirection::D_TURN_BACKWARD: turn_180(speed); break;
+        case MotorDirection::D_LEFT_LATERAL: left_lateral(speed); break;
+        case MotorDirection::D_RIGHT_LATERAL: right_lateral(speed); break;
+        case MotorDirection::D_TURN_LEFT: turn_left(speed); break;
+        case MotorDirection::D_TURN_RIGHT: turn_right(speed); break;
+        case MotorDirection::D_CURVED_LEFT: CurvedTurnLeft(speed); break;
+        case MotorDirection::D_CURVED_RIGHT: CurvedTurnRight(speed); break;
         default: break;
     }
 }
@@ -130,6 +133,8 @@ void MotorClass::move_to_direction(MotorDirection dir, int speed){
 std::ostream& operator<<(std::ostream& os, MotorDirection direction) {
     switch (direction) {
         case MotorDirection::D_FORWARD: return os << "D_FORWARD";
+        case MotorDirection::D_CURVED_RIGHT: return os << "D_CURVED_RIGHT";
+        case MotorDirection::D_CURVED_LEFT: return os << "D_CURVED_LEFT";
         case MotorDirection::D_TURN_BACKWARD: return os << "D_TURN_BACKWARD";
         case MotorDirection::D_LEFT_LATERAL: return os << "D_LEFT_LATERAL";
         case MotorDirection::D_RIGHT_LATERAL: return os << "D_RIGHT_LATERAL";
