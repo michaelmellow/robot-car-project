@@ -66,7 +66,7 @@ class SensorArray{
 
 
     private:
-        const float SENSOR_DIFFERENCE = 20.0;
+        const float SENSOR_DIFFERENCE = 25.0;
 
         sensor_reading current_sensor_reading {0.0, 0.0, 0.0, 0.0, 0.0};
         sensor_status current_sensor_status {false,false,false,false,false};

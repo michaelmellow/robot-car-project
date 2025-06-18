@@ -72,12 +72,13 @@ int main(void){
         if (car.update_tremaux() == false) break;
         sleep_ms(300);
     }
-
+    /*
     while (true){
 
         if (car.update_follow_stack() == false) break;
         sleep_ms(300);
     }
+    */
 
     car.test_stop();
     std::cout<<"Car stop!\n";

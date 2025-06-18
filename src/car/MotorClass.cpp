@@ -82,17 +82,18 @@ void MotorClass::stop() {
     Motor_Stop(MOTORC);
     Motor_Stop(MOTORD);
     is_active = false;
+    sleep_ms(1000);
     
 }
 
 void MotorClass::turn_right(int speed) {
     motor_running(FORWARD, BACKWARD, FORWARD, BACKWARD, speed);
-    sleep_ms(1150);
+    sleep_ms(1300);
 }
 
 void MotorClass::turn_left(int speed) {
     motor_running(BACKWARD, FORWARD, BACKWARD, FORWARD, speed);
-    sleep_ms(1150);
+    sleep_ms(1300);
 }
 
 void MotorClass::turn_180(int speed) {
@@ -114,7 +115,7 @@ void MotorClass::motor_running(DIR dir1, DIR dir2, DIR dir3, DIR dir4, int speed
 void MotorClass::move_to_direction(MotorDirection dir, int speed){
     
     //using enum MotorDirection;
-    std::cout << dir << "--------\n";
+    //std::cout << "Moving : "<< dir << "\n";
 
     switch (dir){
 

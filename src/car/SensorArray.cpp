@@ -12,27 +12,59 @@ SensorArray::SensorArray() :
 
 void SensorArray::update_sensors(){
     
-    sensor_reading new_sensor_reading{
-        sensor_front.getDistance(), 
-        sensor_forward_left.getDistance(), 
-        sensor_forward_right.getDistance(),
-        sensor_back_left.getDistance(), 
-        sensor_back_right.getDistance()
+    while (true) {
 
-    };
-    sensor_status new_sensor_status{false,false,false,false,false};
-    //front is being detected as closed when its really open
-    new_sensor_status.front_open = (new_sensor_reading.front > SENSOR_DIFFERENCE || new_sensor_reading.front == -2);
-    new_sensor_status.forward_left_open = (new_sensor_reading.forward_left > SENSOR_DIFFERENCE || new_sensor_reading.forward_left == -2);
-    new_sensor_status.forward_right_open = (new_sensor_reading.forward_right > SENSOR_DIFFERENCE || new_sensor_reading.forward_right == -2);
-    new_sensor_status.back_right_open = (new_sensor_reading.back_right > SENSOR_DIFFERENCE || new_sensor_reading.back_right == -2);
-    new_sensor_status.back_left_open = (new_sensor_reading.back_left > SENSOR_DIFFERENCE || new_sensor_reading.back_left == -2);
+        int count = 0;
+        if (count > 5) {
 
+            std::cout << "Error: Sensor Timeout";
+            break;
+        }
+        sensor_reading new_sensor_reading(
+            sensor_front.getDistance(),
+            sensor_forward_left.getDistance(),
+            sensor_forward_right.getDistance(),
+            sensor_back_left.getDistance(),
+            sensor_back_right.getDistance()
+        );
+        /*
+        std::cout << "Sensor Refresh\n"
+                  << new_sensor_reading.front << "\n"
+                  << new_sensor_reading.forward_left << "\n"
+                  << new_sensor_reading.forward_right << "\n"
+                  << new_sensor_reading.back_right << "\n"
+                  << new_sensor_reading.back_left << "\n";
+        */
 
-    current_sensor_reading.update(new_sensor_reading);
-    current_sensor_status.update(new_sensor_status);
+        // Break when all sensors have valid (non -2) readings
+        if (new_sensor_reading.front != -2 &&
+            new_sensor_reading.forward_left != -2 &&
+            new_sensor_reading.forward_right != -2 &&
+            new_sensor_reading.back_left != -2 &&
+            new_sensor_reading.back_right != -2) {
+            
+            // Build status only when data is valid
+            sensor_status new_sensor_status{
+                new_sensor_reading.front > SENSOR_DIFFERENCE,
+                new_sensor_reading.forward_left > SENSOR_DIFFERENCE,
+                new_sensor_reading.forward_right > SENSOR_DIFFERENCE,
+                new_sensor_reading.back_left > SENSOR_DIFFERENCE,
+                new_sensor_reading.back_right > SENSOR_DIFFERENCE
+            };
 
+            current_sensor_reading.update(new_sensor_reading);
+            current_sensor_status.update(new_sensor_status);
+            break;
+        }
+
+        count++;
+        sleep_ms(10);
+    }
 }
+
+
+
+
 
 void SensorArray::print_current_readings (){
     std::cout << "Sensor Readings:\n";

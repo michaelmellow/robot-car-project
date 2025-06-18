@@ -21,10 +21,13 @@ class Car{
         Car();
         void start();
         void stop();
+        void move_to_center();
+        void move_out_from_center();
         void test_start();
         void test_stop();
         void test_print_data();
         void test_forward();
+
 
 
         bool update_tremaux();

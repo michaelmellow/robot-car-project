@@ -8,12 +8,23 @@
 #include <array>
 #include <iostream>
 
+enum Direction {
+    
+    NORTH = 0,
+    EAST = 1,
+    SOUTH = 2,
+    WEST = 3
+};
+
+std::ostream& operator<<(std::ostream& os, Direction dir);
+
 struct junction{
 
     int forward = 0;
     int left = 0;
     int right = 0;
     int backward = 0;
+    Direction entered_from_heading;
 
     void reset() {
         forward = 0;
@@ -26,17 +37,31 @@ struct junction{
         return (forward == 0) || (left == 0) || (right == 0);
     }
 
-    MotorDirection least_traveled_path(){
-
+    MotorDirection least_traveled_path() {
         if (forward == 0) return MotorDirection::D_FORWARD;
         if (left == 0) return MotorDirection::D_TURN_LEFT;
         if (right == 0) return MotorDirection::D_TURN_RIGHT;
-        
-        if (forward <= left && forward <= right) return MotorDirection::D_FORWARD;
-        if (left <= forward && left <= right) return MotorDirection::D_TURN_LEFT;
-        
-        return MotorDirection::D_TURN_RIGHT;
+        if (backward == 0) return MotorDirection::D_TURN_BACKWARD;
+
+        int min_val = backward;
+        MotorDirection min_dir = MotorDirection::D_TURN_BACKWARD;
+
+        if (forward < min_val) {
+            min_val = forward;
+            min_dir = MotorDirection::D_FORWARD;
+        }
+        if (left < min_val) {
+            min_val = left;
+            min_dir = MotorDirection::D_TURN_LEFT;
+        }
+        if (right < min_val) {
+            min_val = right;
+            min_dir = MotorDirection::D_TURN_RIGHT;
+        }
+
+        return min_dir;
     }
+
 };
 
 
@@ -50,10 +75,20 @@ class MazeSolver{
         void handle_deadend();
         void check_backtracking_status();
         void print_current_junction();
+        void pop_stack();
+        void set_heading(Direction heading);
+        
 
         MotorDirection choose_direction();
-        MotorDirection flip_direction(MotorDirection &dir);
+        const MotorDirection flip_direction(MotorDirection dir);
         MotorDirection adjust (sensor_reading sensors);
+        MotorDirection get_relative_direction(Direction from, Direction to);
+        
+        Direction get_absolute_direction(Direction current, MotorDirection move);
+        Direction get_new_heading(Direction current_heading, MotorDirection move);
+        Direction get_current_heading();
+        Direction flip_heading(Direction dir);
+
 
         junction get_current_junction();
         bool get_is_backtracking();
@@ -66,6 +101,7 @@ class MazeSolver{
 
         junction current_junction;
         std::stack<junction> path_history;
+        Direction current_heading = NORTH;
 
         const float ADJUST_SENSOR_DIFFERENCE = 10.0;
 
