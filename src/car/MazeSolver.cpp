@@ -1,9 +1,9 @@
 #include "MazeSolver.h"
 
 MazeSolver::MazeSolver(){
-
-    path_history.push({1, 2, 2, 2, NORTH});
-    current_junction = path_history.top();
+    junction new_junction {1, 2, 2, 2, NORTH};
+    path_history.push(&new_junction);
+    current_junction = *path_history.top();
 }
 //take data from sensors ~~ is_valid_junction() or something ~~ should also probally detect dead-ends
 
@@ -25,7 +25,7 @@ void MazeSolver::create_junction(sensor_status sensors){
     }
     */
 
-    path_history.push(current_junction);
+    path_history.push(&current_junction);
 
     //car needs to continue forward for a few seconds for the wheels to line up passed the junction - experiment
 }
@@ -55,7 +55,7 @@ void MazeSolver::update_junction(junction junc, Direction dir){
 MotorDirection MazeSolver::choose_direction(){
     //needs to update junction where it enters and where it leaves
     
-    /*
+    /* 
     if (is_backtracking){
         
         //update junction when entering
@@ -66,20 +66,23 @@ MotorDirection MazeSolver::choose_direction(){
         //return entered_from_rel;
     }
     */
-    
-    std::cout << "Entered from: " << current_junction.entered_from_heading << "\n";
-    std::cout << "Current Heading: " << current_heading << "\n";
     //choose direction
     //get least traveled path at junction : junction is observer
-    MotorDirection least_traveled_path = current_junction.least_traveled_path();
+    MotorDirection junction_rel_dir = current_junction.least_traveled_path();
+
+    std::cout <<"Least traveled path: " << junction_rel_dir << "\n";
+
     //get the absolute direction of the least traveled path
-    Direction exit_to_direction_abs = get_absolute_direction(current_junction.entered_from_heading, least_traveled_path);
+    Direction abs_from_junction = get_absolute_direction(current_junction.entered_from_heading, junction_rel_dir);
+
+    std::cout << "Absolute path: " << abs_from_junction << "\n";
     //get the relative direction of the least travled path : car is observer
-    MotorDirection exit_to_direction_rel = get_relative_direction(current_heading, exit_to_direction_abs);
+    MotorDirection rel_to_robot = get_relative_direction(current_heading, abs_from_junction);
 
-    update_junction(current_junction, exit_to_direction_rel);
+    update_junction(current_junction, junction_rel_dir);
 
-    return exit_to_direction_rel;
+    std::cout << "Relative Path Chosen: " << rel_to_robot << "\n";
+    return rel_to_robot;
 } 
 
 
@@ -90,24 +93,24 @@ void MazeSolver::check_backtracking_status() {
         std::cout << "Junction has unexplored paths — stopping backtrack.\n";
     } 
     
-    else {
-        std::cout << "All paths explored — popping stack.\n";
-        pop_stack(); 
-    }
 }
 
 void MazeSolver::pop_stack(){
-
-    path_history.pop();
     
     if (!path_history.empty()){
-        
+        path_history.pop();
+
         //current_heading = flip_heading(current_heading);
-        current_junction = path_history.top();
+        current_junction = *path_history.top();
         //current_junction.entered_from_heading = flip_heading(current_heading);
     }
 
-    std::cout << "After pop, heading: " << current_heading << ", entered_from_heading: " << current_junction.entered_from_heading << "\n";
+    else {
+
+        std::cout << "Stack is empty, cant pop!";
+    }
+
+    //std::cout << "After pop, heading: " << current_heading << ", entered_from_heading: " << current_junction.entered_from_heading << "\n";
 
 }
 
@@ -158,10 +161,6 @@ MotorDirection MazeSolver::adjust (sensor_reading sensors){
     }
 }
 
-std::stack<junction> MazeSolver::get_path_history(){
-
-    return path_history;
-}
 
 
 void MazeSolver::set_heading(Direction heading) {
@@ -173,8 +172,7 @@ const MotorDirection MazeSolver::flip_direction(MotorDirection dir){
     //using enum MotorDirection;
 
     switch(dir) {
-        case MotorDirection::D_TURN_LEFT: return MotorDirection::D_TURN_RIGHT;
-        case MotorDirection::D_TURN_RIGHT: return MotorDirection::D_TURN_LEFT;
+        
         case MotorDirection::D_FORWARD: return MotorDirection::D_TURN_BACKWARD;
         case MotorDirection::D_TURN_BACKWARD: return MotorDirection::D_FORWARD;
         
@@ -253,12 +251,17 @@ std::ostream& operator<<(std::ostream& os, Direction dir) {
         case EAST:  return os << "EAST";
         case SOUTH: return os << "SOUTH";
         case WEST:  return os << "WEST";
-        default:    return os << "UNKNOWN_DIRECTION";
+        default: return os << "UNKNOWN_DIRECTION";
     }
 }
 
 Direction MazeSolver::flip_heading(Direction dir) {
     return static_cast<Direction>((dir + 2) % 4);
+}
+
+bool MazeSolver::is_path_history_empty() {
+    
+    return path_history.empty();
 }
 
 

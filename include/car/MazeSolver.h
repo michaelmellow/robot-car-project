@@ -78,6 +78,8 @@ class MazeSolver{
         void pop_stack();
         void set_heading(Direction heading);
         
+        bool is_path_history_empty();
+        
 
         MotorDirection choose_direction();
         const MotorDirection flip_direction(MotorDirection dir);
@@ -92,7 +94,7 @@ class MazeSolver{
 
         junction get_current_junction();
         bool get_is_backtracking();
-        std::stack<junction> get_path_history();
+       //std::stack<junction>& get_path_history();
 
     private:
         
@@ -100,7 +102,7 @@ class MazeSolver{
         bool is_first_junction = true;
 
         junction current_junction;
-        std::stack<junction> path_history;
+        std::stack<junction*> path_history;
         Direction current_heading = NORTH;
 
         const float ADJUST_SENSOR_DIFFERENCE = 10.0;

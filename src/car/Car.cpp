@@ -65,9 +65,9 @@ bool Car::update_tremaux(){
             
             mazeSolver.check_backtracking_status();
             //if the car is backtracking and the path history is empty, the maze is complete
-            if (mazeSolver.get_path_history().empty() == true) {
+            if (mazeSolver.is_path_history_empty()) {
                 
-                std::cout << "Stack is empty, something weird happened!\n";
+                std::cout << "Stack is empty!\n";
             }
         }
 
@@ -75,13 +75,15 @@ bool Car::update_tremaux(){
             
             mazeSolver.create_junction(current_status);
         }
+        test_print_data();
+        std::cout << "Current Heading: " << mazeSolver.get_current_heading() << "\n";
 
         MotorDirection chosen_direction = mazeSolver.choose_direction();
 
         Direction new_heading = mazeSolver.get_new_heading(mazeSolver.get_current_heading(), chosen_direction);
         mazeSolver.set_heading(new_heading);
 
-        std::cout << "Current Heading: " << new_heading << "\n";
+        std::cout << "New Heading: " << new_heading << "\n";
 
         motorController.move_to_direction(chosen_direction, speed_);
 
@@ -92,7 +94,12 @@ bool Car::update_tremaux(){
         motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
         
         test_print_data();
-        std::cout <<"Junction Number: " << mazeSolver.get_path_history().size() << "\n";
+        //std::cout <<"Junction Number: " << mazeSolver.get_path_history().size() << "\n";
+
+        if (mazeSolver.get_is_backtracking() == true){
+
+            mazeSolver.pop_stack(); 
+        }
 
         // move out of junction
         move_out_from_center();
@@ -257,7 +264,7 @@ bool Car::update_follow_stack(){
     }
     
     // continue forward because there are no more junctions to detect
-    if (mazeSolver.get_path_history().empty() == true) return true;
+    if (mazeSolver.is_path_history_empty()) return true;
     
     sensorArray.update_sensors();
     sensor_reading current_readings = sensorArray.current_readings();
