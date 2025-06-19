@@ -1,10 +1,6 @@
 #include "MazeSolver.h"
 
-MazeSolver::MazeSolver(){
-    junction new_junction {1, 2, 2, 2, NORTH};
-    path_history.push(&new_junction);
-    current_junction = *path_history.top();
-}
+MazeSolver::MazeSolver(){}
 //take data from sensors ~~ is_valid_junction() or something ~~ should also probally detect dead-ends
 
 void MazeSolver::create_junction(sensor_status sensors){
@@ -25,17 +21,16 @@ void MazeSolver::create_junction(sensor_status sensors){
     }
     */
 
-    path_history.push(&current_junction);
+    path_history.push(current_junction);
 
     //car needs to continue forward for a few seconds for the wheels to line up passed the junction - experiment
 }
 
 
 void MazeSolver::update_junction(junction &junc, MotorDirection &dir){
+    std::cout<<"Updating junction!\n";
     //using enum MotorDirection;
-
     switch (dir){
-        
         //case MotorDirection::D_FORWARD: is_backtracking ? junc.backward++ : junc.forward++; break;
         case MotorDirection::D_FORWARD:junc.forward++; break;
         case MotorDirection::D_TURN_LEFT: junc.left++; break;
@@ -55,8 +50,8 @@ void MazeSolver::update_junction(junction junc, Direction dir){
 MotorDirection MazeSolver::choose_direction(){
     //needs to update junction where it enters and where it leaves
     
-    /* 
-    if (is_backtracking){
+    
+    if (is_backtracking && retrace_steps == false){
         
         //update junction when entering
         //get relative direction the car enters from : junction is observer
@@ -65,29 +60,42 @@ MotorDirection MazeSolver::choose_direction(){
 
         //return entered_from_rel;
     }
-    */
+    MotorDirection junction_rel_dir;
     //choose direction
     //get least traveled path at junction : junction is observer
-    MotorDirection junction_rel_dir = current_junction.least_traveled_path();
+    if (retrace_steps == false){
 
-    std::cout <<"Least traveled path: " << junction_rel_dir << "\n";
+        junction_rel_dir = current_junction.least_traveled_path();
+    }
+
+    else {
+
+        junction_rel_dir = current_junction.retracable_path();
+    }
+
+    //std::cout <<"Least traveled path: " << junction_rel_dir << "\n";
 
     //get the absolute direction of the least traveled path
     Direction abs_from_junction = get_absolute_direction(current_junction.entered_from_heading, junction_rel_dir);
 
-    std::cout << "Absolute path: " << abs_from_junction << "\n";
+    std::cout << "Absolute path desired: " << abs_from_junction << "\n";
     //get the relative direction of the least travled path : car is observer
     MotorDirection rel_to_robot = get_relative_direction(current_heading, abs_from_junction);
 
+    std::cout << "Relative Path Chosen: " << rel_to_robot << "\n";
+
     update_junction(current_junction, junction_rel_dir);
 
-    std::cout << "Relative Path Chosen: " << rel_to_robot << "\n";
+    path_history.top() = current_junction;
+
     return rel_to_robot;
 } 
 
 
 void MazeSolver::check_backtracking_status() {
     
+    if (retrace_steps == true) return;
+
     if (current_junction.has_unexplored_paths()) {
         is_backtracking = false;
         std::cout << "Junction has unexplored paths — stopping backtrack.\n";
@@ -98,16 +106,23 @@ void MazeSolver::check_backtracking_status() {
 void MazeSolver::pop_stack(){
     
     if (!path_history.empty()){
-        path_history.pop();
+        
+        std::cout <<"Poping Stack!\n";
 
-        //current_heading = flip_heading(current_heading);
-        current_junction = *path_history.top();
-        //current_junction.entered_from_heading = flip_heading(current_heading);
+        path_history.pop();
+        
+        if (!path_history.empty()){
+        
+            current_junction = path_history.top();
+        }
+
+        else std::cout << "Popped Last junction! Move Forward to Finish Line!\n";
+
     }
 
     else {
 
-        std::cout << "Stack is empty, cant pop!";
+        std::cout << "Stack is empty, cant pop!\n";
     }
 
     //std::cout << "After pop, heading: " << current_heading << ", entered_from_heading: " << current_junction.entered_from_heading << "\n";
@@ -115,6 +130,7 @@ void MazeSolver::pop_stack(){
 }
 
 void MazeSolver::print_current_junction() {
+    std::cout << "Junction Number: " << path_history.size() << "\n";
     std::cout << "Current Junction State:\n";
     std::cout << "--Forward: " << current_junction.forward << "\n";
     std::cout << "--Left: " << current_junction.left << "\n";
@@ -262,6 +278,12 @@ Direction MazeSolver::flip_heading(Direction dir) {
 bool MazeSolver::is_path_history_empty() {
     
     return path_history.empty();
+}
+
+
+void MazeSolver::flip_retrace_steps(){
+
+    retrace_steps = true;
 }
 
 

@@ -82,13 +82,13 @@ void MotorClass::stop() {
     Motor_Stop(MOTORC);
     Motor_Stop(MOTORD);
     is_active = false;
-    sleep_ms(1000);
+    sleep_ms(100);
     
 }
 
 void MotorClass::turn_right(int speed) {
     motor_running(FORWARD, BACKWARD, FORWARD, BACKWARD, speed);
-    sleep_ms(1300);
+    sleep_ms(1200);
 }
 
 void MotorClass::turn_left(int speed) {

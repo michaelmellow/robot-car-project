@@ -62,6 +62,33 @@ struct junction{
         return min_dir;
     }
 
+    MotorDirection retracable_path(){
+        //favors going backwards
+        if (backward == 1) return MotorDirection::D_TURN_BACKWARD;
+        if (forward == 1) return MotorDirection::D_FORWARD;
+        if (left == 1) return MotorDirection::D_TURN_LEFT;
+        if (right == 1) return MotorDirection::D_TURN_RIGHT;
+        
+        //this shouldnt happen 
+        int min_val = backward;
+        MotorDirection min_dir = MotorDirection::D_TURN_BACKWARD;
+
+        if (forward < min_val) {
+            min_val = forward;
+            min_dir = MotorDirection::D_FORWARD;
+        }
+        if (left < min_val) {
+            min_val = left;
+            min_dir = MotorDirection::D_TURN_LEFT;
+        }
+        if (right < min_val) {
+            min_val = right;
+            min_dir = MotorDirection::D_TURN_RIGHT;
+        }
+
+        return min_dir;
+    }
+
 };
 
 
@@ -77,6 +104,7 @@ class MazeSolver{
         void print_current_junction();
         void pop_stack();
         void set_heading(Direction heading);
+        void flip_retrace_steps();
         
         bool is_path_history_empty();
         
@@ -99,10 +127,10 @@ class MazeSolver{
     private:
         
         bool is_backtracking = false;
-        bool is_first_junction = true;
+        bool retrace_steps = false;
 
         junction current_junction;
-        std::stack<junction*> path_history;
+        std::stack<junction> path_history;
         Direction current_heading = NORTH;
 
         const float ADJUST_SENSOR_DIFFERENCE = 10.0;

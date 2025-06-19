@@ -28,8 +28,6 @@ class Car{
         void test_print_data();
         void test_forward();
 
-
-
         bool update_tremaux();
         bool update_follow_stack();
         void sensor_test();
@@ -51,7 +49,8 @@ class Car{
         uint32_t start_time = 0;
         float total_time = 0;
         int speed_ = 40;
-        
+        bool treasure_found = false;
+        bool maze_completed = false;        
         //const float SENSOR_DIFFERENCE = 15.0; // experiment with value
 
         

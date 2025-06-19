@@ -22,10 +22,9 @@ void BottomSensor::start_check () {
 
     // light surface
     if (sensor_left < 1000 || sensor_middle < 1000 || sensor_right < 1000) {
-        
+        std::cout << "Light surface found! ";
         light_color_counter_++;
     }
-
 }
 
 int BottomSensor::get_light_color_counter(){

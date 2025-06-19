@@ -65,7 +65,7 @@ int main(void){
     Car car;
 
     //car.test_start();
-    std::cout<<"Car start!\n";
+    std::cout<<"Car start! --------------------------------\n";
 
     while (true){
 
@@ -79,11 +79,11 @@ int main(void){
         sleep_ms(300);
     }
     */
-
-    car.test_stop();
     std::cout<<"Car stop!\n";
+    car.test_stop();
 
 }
+
 
 
 /*
@@ -97,6 +97,7 @@ int main (void){
 
 }
 */
+
 
 
 
