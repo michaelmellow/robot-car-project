@@ -7,6 +7,8 @@
 Ultrasonic::Ultrasonic(uint8_t triggerPin, uint8_t echoPin) : triggerPin_(triggerPin), echoPin_(echoPin), motorsRunning(true) {
     DEV_GPIO_Mode(triggerPin_, GPIO_OUT);
     DEV_GPIO_Mode(echoPin_, GPIO_IN);
+    //printf("Ultrasonic Sensor Initialized on pins: %d, %d\n", triggerPin, echoPin);
+
 }
 
 float Ultrasonic::getDistance() {
@@ -34,7 +36,7 @@ float Ultrasonic::getDistance() {
     while (DEV_Digital_Read(echoPin_) == 1 && time_us_32() < timeout);
     if (time_us_32() >= timeout) {
         //printf("Echo end timeout!\n");
-        return -1;
+        return -2;
     }
     uint32_t endTime = time_us_32();
 

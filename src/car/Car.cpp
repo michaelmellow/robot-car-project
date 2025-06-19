@@ -1,47 +1,170 @@
 #include "Car.h"
 // #include "testBasicMotors.cpp"
 
+#define OUT(...) std::cout << #__VA_ARGS__ << " = " << __VA_ARGS__ << '\n'
+
 Car::Car(){}
 
 bool Car::update_tremaux(){
-    
-    // #todo change how update_readings returns so that if all sensors are not open - deadend is detected
-    sensorArray.update_sensors();
+    bottomSensor.start_check();
 
-    MotorDirection adjustment_direction = mazeSolver.adjust(sensorArray.current_readings());
-    motorController.turn_to_direction(adjustment_direction, speed_);
+    if (bottomSensor.get_light_color_counter() == 1 && treasure_found == false){
+        
+        std::cout << "Treasure Found!\n";
+        std::cout <<"Treasure Number: " << bottomSensor.get_light_color_counter() << "\n";
+        treasure_found = true;
+        
+        motorController.stop();
+        mazeSolver.handle_deadend();
+        
+        motorController.move_to_direction(MotorDirection::D_TURN_BACKWARD, speed_);
+        motorController.stop();
 
-    //if junction is found
+        Direction new_heading = mazeSolver.get_new_heading(mazeSolver.get_current_heading(), MotorDirection::D_TURN_BACKWARD);
+        mazeSolver.set_heading(new_heading);
 
-    //if not currently backtracking, make new junction
+        sleep_ms(100);
 
+        motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
+        //sleep_ms(1000);
 
-    if (!mazeSolver.get_is_backtracking()){
-
-        mazeSolver.create_junction(sensorArray.current_status());
+        mazeSolver.flip_retrace_steps();
     }
 
-    else mazeSolver.check_backtracking_status();
+    else if (bottomSensor.get_light_color_counter() == 2 && treasure_found == true) return false;
 
-    DEV_Delay_ms(1000); // experiment with value;
-    motorController.stop();
+    if (maze_completed){
 
-    MotorDirection chosen_direction = mazeSolver.choose_direction();
+        return true;
+    }
+
+    sensorArray.update_sensors();
+    sensor_reading current_readings = sensorArray.current_readings();
+    sensor_status current_status = sensorArray.current_status();
+
+    std::cout <<"-------\n";
     
-    if (chosen_direction == MotorDirection::D_STOP) return false;
+    //test_print_data();
 
-    motorController.turn_to_direction(chosen_direction, speed_);
-    motorController.forward_move(speed_);
+    motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
 
+    MotorDirection adjustment_direction = mazeSolver.adjust(current_readings);
+    
+    if (adjustment_direction != MotorDirection::D_FORWARD){
+        
+        motorController.move_to_direction(adjustment_direction, speed_);
+        
+        std::cout <<"Adjustment detected!\n";
+        std::cout << adjustment_direction << "\n";
+
+        sleep_ms(50);
+
+        if (current_status.front_open != false) return true;
+
+    }
+
+    //if junction is found
+    if (current_status.back_left_open == true || current_status.back_right_open == true){
+        
+        std::cout << "Junction detected!\n";
+        
+        // Move to center of junction
+        move_to_center();
+
+        motorController.stop();
+
+        sensorArray.update_sensors(); //Update sensors again
+        current_readings = sensorArray.current_readings();
+        current_status = sensorArray.current_status();
+
+        //OUT(mazeSolver.get_is_backtracking());
+        //if not currently backtracking, make new junction
+        if (mazeSolver.get_is_backtracking() == true){
+            
+            mazeSolver.check_backtracking_status();            
+        }
+
+        else {
+            
+            mazeSolver.create_junction(current_status);
+        }
         test_print_data();
+        std::cout << "Current Heading: " << mazeSolver.get_current_heading() << "\n";
+
+        MotorDirection chosen_direction = mazeSolver.choose_direction();
+
+        Direction new_heading = mazeSolver.get_new_heading(mazeSolver.get_current_heading(), chosen_direction);
+        mazeSolver.set_heading(new_heading);
+
+        std::cout << "New Heading: " << new_heading << "\n";
+
+        motorController.move_to_direction(chosen_direction, speed_);
+
+        //std::cout <<"Chosen Direction: " << chosen_direction << "\n";
+        
+        motorController.stop();
+
+        motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
+        
+        test_print_data();
+        //std::cout <<"Junction Number: " << mazeSolver.get_path_history().size() << "\n";
+
+        if (mazeSolver.get_is_backtracking() == true){
+
+            mazeSolver.pop_stack(); 
+        }
+
+        //Maze completed move forward
+        if (mazeSolver.is_path_history_empty()){
+            maze_completed = true;
+            motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
+            return true;
+        }
+
+        // move out of junction
+        move_out_from_center();
+
+    }
+
+    //if deadend is found
+    else if (current_status.front_open == false && current_readings.front < 20 && current_status.back_left_open == false && current_status.back_right_open == false){
+
+        std::cout <<"Deadend detected!\n";
+        motorController.stop();
+        
+        mazeSolver.handle_deadend();
+        
+        motorController.move_to_direction(MotorDirection::D_TURN_BACKWARD, speed_);
+        
+        motorController.stop();
+
+        Direction new_heading = mazeSolver.get_new_heading(mazeSolver.get_current_heading(), MotorDirection::D_TURN_BACKWARD);
+        mazeSolver.set_heading(new_heading);
+
+        
+        //MotorDirection retrace_rel = get_relative_direction(mazeSolver.get_current_junction(), new_heading);
+        //update_junction(mazeSolver.get_current_junction(), retrace_rel);
+
+        std::cout << "Current Heading: " << new_heading << "\n";
+
+        //sleep_ms(1000);
+        motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
+
+    }
+
+    std::cout <<"-------\n";
 
     return true;
 }
 
-bool Car::update_wall_follow(){
 
+void Car::sensor_test(){
 
-    return false;
+    sensorArray.update_sensors();
+    //const sensor_reading current_readings = sensorArray.current_readings();
+    //const sensor_status current_status = sensorArray.current_status();
+
+    test_print_data();
 }
 
 //void Car::update_following(){}
@@ -100,12 +223,58 @@ void Car::test_print_data(){
     
     if (mazeSolver.get_is_backtracking()){
 
-        std::cout <<"Is now backtracking!";
+        std::cout <<"Is currently backtracking!\n";
     }
 
     //std::cout<< "Chosen Direction\n" << "--" << chosen_direction << "\n";
     sensorArray.print_current_readings();
     mazeSolver.print_current_junction();
+    
     std::cout <<"\n";
     
 }
+
+void Car::test_forward(){
+
+    motorController.move_to_direction(MotorDirection::D_FORWARD, speed_);
+    //motorController.forward_move(speed_);
+}
+
+void Car::move_to_center(){
+
+    if (sensorArray.current_readings().front > 50){
+
+        sleep_ms(800);
+    }
+
+    else {
+
+        int count = 0;
+
+        while (sensorArray.current_readings().front > 10.0 && count < 16){
+
+            sleep_ms(50);
+            sensorArray.update_sensors();
+            count++;
+        }
+    }
+}
+
+void Car::move_out_from_center(){
+    sensorArray.update_sensors();
+    
+    //test_print_data();
+
+    while (sensorArray.current_status().back_left_open == true || sensorArray.current_status().back_right_open == true){
+        
+        sleep_ms(50);
+        sensorArray.update_sensors();
+
+    }
+
+    sleep_ms(300);
+}
+
+
+
+

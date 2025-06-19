@@ -3,6 +3,7 @@
 
 //#include "Car.h"
 #include "hardware/adc.h"
+#include <iostream>
 
 class BottomSensor {
 public:
@@ -10,10 +11,10 @@ public:
     BottomSensor();
     
     void start_check ();
-    int get_light_counter();
+    int get_light_color_counter();
 
 private:
-    int light_color_counter_{};
+    int light_color_counter_ = 0;
 };
 
 

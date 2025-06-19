@@ -47,32 +47,29 @@ struct sensor_status{
         back_left_open = new_sensor_status.back_left_open;
         back_right_open = new_sensor_status.back_right_open;
 
-    } 
+    }
 };
 
 class SensorArray{
 
     public:
         
-        SensorArray() : 
-            sensor_front(15, 16), 
-            sensor_forward_left(13, 18), 
-            sensor_forward_right(14, 17),
-            sensor_back_left(11,10),
-            sensor_back_right(12,19) {}  
+        SensorArray();
       
         void update_sensors();
+        void print_current_readings ();
 
         sensor_reading current_readings();
         sensor_status current_status();
 
-        void print_current_readings ();
+        bool compare(sensor_status current_sensor_status, sensor_status new_sensor_status);
+
 
     private:
-        const float SENSOR_DIFFERENCE = 15.0;
+        const float SENSOR_DIFFERENCE = 25.0;
 
         sensor_reading current_sensor_reading {0.0, 0.0, 0.0, 0.0, 0.0};
-        sensor_status current_sensor_status;
+        sensor_status current_sensor_status {false,false,false,false,false};
 
         Ultrasonic sensor_front;
         Ultrasonic sensor_forward_left;
